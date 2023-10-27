@@ -1,0 +1,10 @@
+{
+  "editor.formatOnSave": true,
+  "prettier.configPath": "prettier.config.js",
+  "prettier.prettierPath": "./node_modules/prettier/index.cjs",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.requireConfig": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

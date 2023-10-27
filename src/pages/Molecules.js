@@ -1,19 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
-import { PDBLoader } from 'three/examples/jsm/loaders/PDBLoader';
-import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
-import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
+import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
+import { PDBLoader } from 'three/addons/loaders/PDBLoader.js';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 // import * as pdb1 from '../models/caffeine.pdb'
 
 const Molecules = () => {
-  const MOLECULES = { 
-    'Caffeine': 'caffeine.pdb',
-    // ... (other molecule definitions)
+  const containerRef = useRef(null);
+
+  const MOLECULES = {
+    Caffeine: 'caffeine.pdb',
   };
 
+  const [fileContent, setFileContent] = useState('');
+
   const params = {
-    molecule: 'caffeine.pdb'
+    molecule: 'caffeine.pdb',
   };
 
   let camera, scene, renderer, labelRenderer;
@@ -26,11 +29,28 @@ const Molecules = () => {
   useEffect(() => {
     init();
     animate();
+  });
 
-    return () => {
-      // Clean up any resources (if needed) when the component unmounts
-    };
-  }, []);
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const text = e.target.result;
+        setFileContent(text);
+      };
+
+      reader.readAsText(file);
+    }
+  };
+
+  // function init() {
+  //   const visualizer = CrystVis('#molecule', 800, 600)
+  //   var loaded = visualizer.loadModels(fileContent);
+  //   console.log('Models loaded: ', loaded);
+  //   visualizer.displayModel(loaded[0])
+  // }
 
   function init() {
     scene = new THREE.Scene();
@@ -51,7 +71,7 @@ const Molecules = () => {
     root = new THREE.Group();
     scene.add(root);
 
-    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('container').appendChild(renderer.domElement);
@@ -78,7 +98,6 @@ const Molecules = () => {
 
   function loadMolecule(model) {
     const url = 'models/' + model;
-    console.log({url})
 
     while (root.children.length > 0) {
       const object = root.children[0];
@@ -89,7 +108,7 @@ const Molecules = () => {
       const geometryAtoms = pdb.geometryAtoms;
       const geometryBonds = pdb.geometryBonds;
       const json = pdb.json;
-      
+
       const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
       const sphereGeometry = new THREE.IcosahedronGeometry(1, 3);
 
@@ -176,12 +195,9 @@ const Molecules = () => {
   function animate() {
     requestAnimationFrame(animate);
     controls.update();
-
     const time = Date.now() * 0.0004;
-
     root.rotation.x = time;
     root.rotation.y = time * 0.7;
-
     render();
   }
 
@@ -191,9 +207,15 @@ const Molecules = () => {
   }
 
   return (
-    <div>
+    <>
+      <div id="info">
+        <a href="https://threejs.org" target="_blank" rel="noopener noreferrer">
+          three.js webgl
+        </a>{' '}
+        - molecules
+      </div>
       <div id="container"></div>
-    </div>
+    </>
   );
 };
 
