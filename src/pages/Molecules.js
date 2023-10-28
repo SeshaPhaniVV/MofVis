@@ -5,18 +5,25 @@ import { PDBLoader } from 'three/addons/loaders/PDBLoader.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 // import * as pdb1 from '../models/caffeine.pdb'
+import axios from 'axios';
 
 const Molecules = () => {
+  const [file, setFile] = useState(null);
+  const [outputMessage, setOutputMessage] = useState('');
   const containerRef = useRef(null);
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   const MOLECULES = {
-    Caffeine: 'caffeine.pdb',
+    Caffeine: 'converted.pdb',
   };
 
   const [fileContent, setFileContent] = useState('');
 
   const params = {
-    molecule: 'caffeine.pdb',
+    molecule: 'converted.pdb',
   };
 
   let camera, scene, renderer, labelRenderer;
@@ -31,17 +38,26 @@ const Molecules = () => {
     animate();
   });
 
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
+  const handleFileUpload = async (event) => {
+    try {
+      const file = event.target.files[0];
+      if (!file) return;
+      const formData = new FormData();
+      formData.append('file', file);
 
-      reader.onload = (e) => {
-        const text = e.target.result;
-        setFileContent(text);
-      };
+      const response = await axios.post('http://localhost:5000/upload_and_convert', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-      reader.readAsText(file);
+      if (response.data.success) {
+        setOutputMessage(`File converted successfully: ${response.data.success}`);
+      } else {
+        setOutputMessage(`Error: ${response.data.error}`);
+      }
+    } catch (error) {
+      setOutputMessage('An error occurred while uploading and converting the file.');
     }
   };
 
@@ -203,7 +219,7 @@ const Molecules = () => {
 
   function render() {
     renderer.render(scene, camera);
-    labelRenderer.render(scene, camera);
+    // labelRenderer.render(scene, camera);
   }
 
   return (
@@ -213,6 +229,24 @@ const Molecules = () => {
           three.js webgl
         </a>{' '}
         - molecules
+        <div className="row">
+          <div className="col-md-6 offset-md-3">
+            <div className="card">
+              <div className="card-body">
+                <h3 className="card-title text-center mb-4">File Upload</h3>
+                <div className="form-group">
+                  <input type="file" className="form-control-file" onChange={handleFileUpload} />
+                </div>
+                {fileContent && (
+                  <div className="form-group">
+                    <h5>File Content:</h5>
+                    <pre>{fileContent}</pre>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="container"></div>
     </>
