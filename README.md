@@ -1,18 +1,46 @@
 # MOFVis
 
 ## Introduction
+
 'MOFVis,' is a specialized web application designed to transform MOF research by providing unique and interactive visualizations that connect structural information to functional properties and simplify the exploration of MOF structures, fostering deeper insights and accelerating the pace of MOF-related discoveries.
 
 ## Team Members
+
 - Venkata Sesha Phani, Vakicherla
 - Srikanth Kyatham
 - Sri Sai Kiran Reddy Gorla
 
 ## Repository details
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project frontend was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Backed is bootstrapped with a Conda Flask server.
 
-## Available Scripts
+## Prerequisites
+
+- Conda installed: You need to have Conda installed on your system.
+- Python: Your Conda environment should have Python installed.
+
+## Backend Server Setup
+
+### 1) Go to backend directory
+
+`cd backend`
+
+### 2) if you need to create a Conda environment
+
+`conda create --name my-env`
+
+### 3) if you need to activate a Conda environment
+
+`conda activate my-env`
+
+`conda install --file requirements.txt`
+
+### 4) start backend server in port 5000
+
+`flask --app api run`
+
+## Frontend Available Scripts
 
 In the project directory, you can run:
 
@@ -64,6 +92,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 ## Credits
+
 - https://threejs.org/examples/webgl_loader_pdb
 - https://github.com/facebook/create-react-app
-
+- https://github.com/schrodinger/pymol-open-source
+- https://flask.palletsprojects.com/en/3.0.x/
+- https://anaconda.org/anaconda/conda
