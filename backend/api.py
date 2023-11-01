@@ -56,6 +56,19 @@ from flask import Flask, request, jsonify
 import pymol2
 import os
 from flask_cors import CORS
+from gemmi import cif, read_structure, CoorFormat
+
+# doc = cif.read_file(
+#     '../public/models/molGAN-MOF-Ncopper_paddle_pillar-L113COO-L130COO-L127Pyridine.cif')
+
+doc = cif.read_file('../public/models/caffeine.pdb')
+
+print(doc.as_json())
+
+# print(doc)
+# doc.write_pdb('output.pdb')
+# j = doc.as_json()
+# print(j)
 
 app = Flask(__name__)
 CORS(app)
@@ -69,7 +82,6 @@ def hello_world():
 @app.route('/upload_and_convert', methods=['POST'])
 def upload_and_convert():
     try:
-        print('testingg...')
         # Check if the POST request has a file attached
         if 'file' not in request.files:
             return jsonify({'error': 'No file part'})

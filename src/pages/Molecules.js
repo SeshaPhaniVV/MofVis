@@ -6,6 +6,7 @@ import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 // import * as pdb1 from '../models/caffeine.pdb'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Molecules = () => {
   const [file, setFile] = useState(null);
@@ -17,13 +18,13 @@ const Molecules = () => {
   };
 
   const MOLECULES = {
-    Caffeine: 'converted.pdb',
+    Caffeine: 'converted1.pdb',
   };
 
   const [fileContent, setFileContent] = useState('');
 
   const params = {
-    molecule: 'converted.pdb',
+    molecule: 'converted1.pdb',
   };
 
   let camera, scene, renderer, labelRenderer;
@@ -229,7 +230,7 @@ const Molecules = () => {
           three.js webgl
         </a>{' '}
         - molecules
-        <div className="row">
+        {/* <div className="row">
           <div className="col-md-6 offset-md-3">
             <div className="card">
               <div className="card-body">
@@ -246,7 +247,10 @@ const Molecules = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
+      </div>
+      <div>
+        <Link to="/">Home</Link>
       </div>
       <div id="container"></div>
     </>
