@@ -90,11 +90,11 @@ const Molecules = () => {
 
     renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(700, 400);
     document.getElementById('container').appendChild(renderer.domElement);
 
     labelRenderer = new CSS2DRenderer();
-    labelRenderer.setSize(window.innerWidth, window.innerHeight);
+    labelRenderer.setSize(700, 500);
     labelRenderer.domElement.style.position = 'absolute';
     labelRenderer.domElement.style.top = '0px';
     labelRenderer.domElement.style.pointerEvents = 'none';
@@ -108,9 +108,9 @@ const Molecules = () => {
 
     window.addEventListener('resize', onWindowResize);
 
-    const gui = new GUI();
-    gui.add(params, 'molecule', MOLECULES).onChange(loadMolecule);
-    gui.open();
+    // const gui = new GUI();
+    // gui.add(params, 'molecule', MOLECULES).onChange(loadMolecule);
+    // gui.open();
   }
 
   function loadMolecule(model) {
@@ -225,33 +225,6 @@ const Molecules = () => {
 
   return (
     <>
-      <div id="info">
-        <a href="https://threejs.org" target="_blank" rel="noopener noreferrer">
-          three.js webgl
-        </a>{' '}
-        - molecules
-        {/* <div className="row">
-          <div className="col-md-6 offset-md-3">
-            <div className="card">
-              <div className="card-body">
-                <h3 className="card-title text-center mb-4">File Upload</h3>
-                <div className="form-group">
-                  <input type="file" className="form-control-file" onChange={handleFileUpload} />
-                </div>
-                {fileContent && (
-                  <div className="form-group">
-                    <h5>File Content:</h5>
-                    <pre>{fileContent}</pre>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div> */}
-      </div>
-      <div>
-        <Link to="/">Home</Link>
-      </div>
       <div id="container"></div>
     </>
   );
