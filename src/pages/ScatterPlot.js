@@ -35,5 +35,5 @@ export default function ScatterPlot() {
     }
   }, [svg]);
 
-  return <div className={'d3-component'} style={{ height: 200, width: 200 }} ref={d3Container}></div>;
+  return <div className={'d3-component'} style={{ height: '99%', width: '99%' }} ref={d3Container}></div>;
 }
