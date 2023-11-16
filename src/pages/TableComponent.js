@@ -21,7 +21,6 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-//import { jsonLoader } from '/Users/photon/Documents/GitHub/MofVis/src/loaders/jsonLoader.js';
 
 function createData(id, name, calories, fat, carbs, protein) {
   return {
