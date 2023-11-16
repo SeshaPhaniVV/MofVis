@@ -15,7 +15,6 @@ function createData(name, values) {
 }
 
 function getData() {
-<<<<<<< Updated upstream
     const customData0 = require("./../json_data/hMOF-0.json");
     const customData1 = require("./../json_data/hMOF-1.json");
     const customData2 = require("./../json_data/hMOF-2.json");
@@ -50,42 +49,6 @@ function getData() {
     data.push(createData('lcd',lcd));
     return data;
   }
-=======
-  const customData0 = require('./../json_data/hMOF-0.json');
-  const customData1 = require('./../json_data/hMOF-1.json');
-  const customData2 = require('./../json_data/hMOF-2.json');
-  const customData3 = require('./../json_data/hMOF-3.json');
-  const customData4 = require('./../json_data/hMOF-4.json');
-  const customData5 = require('./../json_data/hMOF-5.json');
-  const customData6 = require('./../json_data/hMOF-6.json');
-  const customData7 = require('./../json_data/hMOF-7.json');
-  const customData8 = require('./../json_data/hMOF-8.json');
-  let data = [];
-  let pld = [];
-  let lcd = [];
-  pld.push(customData0.pld);
-  pld.push(customData1.pld);
-  pld.push(customData2.pld);
-  pld.push(customData3.pld);
-  pld.push(customData4.pld);
-  pld.push(customData5.pld);
-  pld.push(customData6.pld);
-  pld.push(customData7.pld);
-  pld.push(customData8.pld);
-  lcd.push(customData0.lcd);
-  lcd.push(customData1.lcd);
-  lcd.push(customData2.lcd);
-  lcd.push(customData3.lcd);
-  lcd.push(customData4.lcd);
-  lcd.push(customData5.lcd);
-  lcd.push(customData6.lcd);
-  lcd.push(customData7.lcd);
-  lcd.push(customData8.lcd);
-  data.push(createData('pld', pld));
-  data.push(createData('lcd', lcd));
-  return data;
-}
->>>>>>> Stashed changes
 
 const Histogram = () => {
   var width = 600;
@@ -138,7 +101,6 @@ const Histogram = () => {
       .call(xAxisGenerator);
 
     const yAxisGenerator = d3.axisLeft(yScale);
-<<<<<<< Updated upstream
     svgElement.append("g").call(yAxisGenerator);
       // X axis 
     svgElement
@@ -162,9 +124,6 @@ const Histogram = () => {
     .attr("dy", "1em")
     .style("text-anchor", "middle")
     .text("Number Of Structures");
-=======
-    svgElement.append('g').call(yAxisGenerator);
->>>>>>> Stashed changes
   }, [xScale, yScale, boundsHeight]);
   
   var widthrect = 0;
@@ -195,7 +154,6 @@ const Histogram = () => {
 
 
   return (
-<<<<<<< Updated upstream
 <div>
     <svg width={width} height={height}>
       <g
@@ -224,21 +182,6 @@ const Histogram = () => {
   </div>
     
     
-=======
-    <div>
-      <svg width={width} height={height}>
-        <g width={boundsWidth} height={boundsHeight} transform={`translate(${[MARGIN.left, MARGIN.top].join(',')})`}>
-          {allRects}
-        </g>
-        <g
-          width={boundsWidth}
-          height={boundsHeight}
-          ref={axesRef}
-          transform={`translate(${[MARGIN.left, MARGIN.top].join(',')})`}
-        />
-      </svg>
-    </div>
->>>>>>> Stashed changes
   );
 };
 
