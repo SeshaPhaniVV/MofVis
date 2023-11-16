@@ -45,18 +45,6 @@ const StyledTableHeadCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.common.black,
   fontWeight: 'bold',
 }));
-//import { jsonLoader } from '/Users/photon/Documents/GitHub/MofVis/src/loaders/jsonLoader.js';
-
-// function createData(id, name, void_fraction, surface_area_m2cm3, surface_area_m2g, pld) {
-//   return {
-//     id,
-//     name,
-//     void_fraction,
-//     surface_area_m2cm3,
-//     surface_area_m2g,
-//     pld,
-//   };
-// }
 
 function createData(name, void_fraction, surface_area_m2cm3, surface_area_m2g, pld, lcd) {
   return {
@@ -83,12 +71,7 @@ var customData10 = require('./../json_data/hMOF-10.json');
 var customData11 = require('./../json_data/hMOF-11.json');
 var customData12 = require('./../json_data/hMOF-12.json');
 
-//l = ["path1","path2"]
-//for(int){
-// const jsonloader = new jsonLoader();
-//  var jsonjData = jsonloader.load(l[2]);
 
-//}
 
 let originalRows = [];
 originalRows.push(

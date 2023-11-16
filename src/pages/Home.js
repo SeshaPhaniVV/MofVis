@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Molecules from './Molecules';
-import ScatterPlot from './ScatterPlot';
 import Scatter from './Scatter';
 import Histogram from './Histogram';
 import TableComponent from './TableComponent';
