@@ -15,15 +15,15 @@ function createData(name, values) {
   }
 
 function getData() {
-    const customData0 = require("/Users/srikanthkyatham/class529/MofVis/src/json_data/hMOF-0.json");
-    const customData1 = require("/Users/srikanthkyatham/class529/MofVis/src/json_data/hMOF-1.json");
-    const customData2 = require("/Users/srikanthkyatham/class529/MofVis/src/json_data/hMOF-2.json");
-    const customData3 = require("/Users/srikanthkyatham/class529/MofVis/src/json_data/hMOF-3.json");
-    const customData4 = require("/Users/srikanthkyatham/class529/MofVis/src/json_data/hMOF-4.json");
-    const customData5 = require("/Users/srikanthkyatham/class529/MofVis/src/json_data/hMOF-5.json");
-    const customData6 = require("/Users/srikanthkyatham/class529/MofVis/src/json_data/hMOF-6.json");
-    const customData7 = require("/Users/srikanthkyatham/class529/MofVis/src/json_data/hMOF-7.json");
-    const customData8 = require("/Users/srikanthkyatham/class529/MofVis/src/json_data/hMOF-8.json");
+    const customData0 = require("./../json_data/hMOF-0.json");
+    const customData1 = require("./../json_data/hMOF-1.json");
+    const customData2 = require("./../json_data/hMOF-2.json");
+    const customData3 = require("./../json_data/hMOF-3.json");
+    const customData4 = require("./../json_data/hMOF-4.json");
+    const customData5 = require("./../json_data/hMOF-5.json");
+    const customData6 = require("./../json_data/hMOF-6.json");
+    const customData7 = require("./../json_data/hMOF-7.json");
+    const customData8 = require("./../json_data/hMOF-8.json");
     let data = [];
     let pld = [];
     let lcd = [];

@@ -21,17 +21,64 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import { styled } from '@mui/material/styles';
 
-function createData(id, name, calories, fat, carbs, protein) {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  backgroundColor: theme.palette.common.white,
+  color: theme.palette.common.black,
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  '&:nth-of-type(even)': {
+    backgroundColor: theme.palette.common.white,
+  },
+}));
+
+const StyledTableHeadCell = styled(TableCell)(({ theme }) => ({
+  backgroundColor: '#5D8AA8', // light green color for heading
+  color: theme.palette.common.black,
+  fontWeight: 'bold',
+}));
+//import { jsonLoader } from '/Users/photon/Documents/GitHub/MofVis/src/loaders/jsonLoader.js';
+
+// function createData(id, name, void_fraction, surface_area_m2cm3, surface_area_m2g, pld) {
+//   return {
+//     id,
+//     name,
+//     void_fraction,
+//     surface_area_m2cm3,
+//     surface_area_m2g,
+//     pld,
+//   };
+// }
+
+function createData(name, void_fraction, surface_area_m2cm3, surface_area_m2g, pld, lcd) {
   return {
-    id,
     name,
-    calories,
-    fat,
-    carbs,
-    protein,
+    void_fraction,
+    surface_area_m2cm3,
+    surface_area_m2g,
+    pld,
+    lcd,
   };
 }
+
+const customData0 = require("./../json_data/hMOF-0.json");
+var customData1 = require("./../json_data/hMOF-1.json");
+var customData2 = require("./../json_data/hMOF-2.json");
+var customData3 = require("./../json_data/hMOF-3.json");
+var customData4 = require("./../json_data/hMOF-4.json");
+var customData5 = require("./../json_data/hMOF-5.json");
+var customData6 = require("./../json_data/hMOF-6.json");
+var customData7 = require("./../json_data/hMOF-7.json");
+var customData8 = require("./../json_data/hMOF-8.json");
+var customData9 = require("./../json_data/hMOF-9.json");
+var customData10 = require("./../json_data/hMOF-10.json");
+var customData11 = require("./../json_data/hMOF-11.json");
+var customData12 = require("./../json_data/hMOF-12.json");
+
+
+
 //l = ["path1","path2"]
 //for(int){
  // const jsonloader = new jsonLoader();
@@ -40,86 +87,65 @@ function createData(id, name, calories, fat, carbs, protein) {
 //}
 
 
-const rows = [
-  createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
-  createData(2, 'Donut', 452, 25.0, 51, 4.9),
-  createData(3, 'Eclair', 262, 16.0, 24, 6.0),
-  createData(4, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData(5, 'Gingerbread', 356, 16.0, 49, 3.9),
-  createData(6, 'Honeycomb', 408, 3.2, 87, 6.5),
-  createData(7, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData(8, 'Jelly Bean', 375, 0.0, 94, 0.0),
-  createData(9, 'KitKat', 518, 26.0, 65, 7.0),
-  createData(10, 'Lollipop', 392, 0.2, 98, 0.0),
-  createData(11, 'Marshmallow', 318, 0, 81, 2.0),
-  createData(12, 'Nougat', 360, 19.0, 9, 37.0),
-  createData(13, 'Oreo', 437, 18.0, 63, 4.0),
-];
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
+let rows = [];
+  rows.push(createData(customData0.name, customData0.void_fraction, customData0.surface_area_m2cm3, customData0.surface_area_m2g, customData0.pld, customData0.lcd));
+  rows.push(createData(customData1.name, customData1.void_fraction, customData1.surface_area_m2cm3, customData1.surface_area_m2g, customData1.pld, customData1.lcd));
+  rows.push(createData(customData2.name, customData2.void_fraction, customData2.surface_area_m2cm3, customData2.surface_area_m2g, customData2.pld, customData2.lcd));
+  rows.push(createData(customData3.name, customData3.void_fraction, customData3.surface_area_m2cm3, customData3.surface_area_m2g, customData3.pld, customData3.lcd));
+  rows.push(createData(customData4.name, customData4.void_fraction, customData4.surface_area_m2cm3, customData4.surface_area_m2g, customData4.pld, customData4.lcd));
+  rows.push(createData(customData5.name, customData5.void_fraction, customData5.surface_area_m2cm3, customData5.surface_area_m2g, customData5.pld, customData5.lcd));
+  rows.push(createData(customData6.name, customData6.void_fraction, customData6.surface_area_m2cm3, customData6.surface_area_m2g, customData6.pld, customData6.lcd));
+  rows.push(createData(customData7.name, customData7.void_fraction, customData7.surface_area_m2cm3, customData7.surface_area_m2g, customData7.pld, customData7.lcd));
+  rows.push(createData(customData8.name, customData8.void_fraction, customData8.surface_area_m2cm3, customData8.surface_area_m2g, customData8.pld, customData8.lcd));
+  rows.push(createData(customData9.name, customData9.void_fraction, customData9.surface_area_m2cm3, customData9.surface_area_m2g, customData9.pld, customData9.lcd));
+  
 
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
+  function descendingComparator(a, b, orderBy) {
+    if (!a.hasOwnProperty(orderBy) || !b.hasOwnProperty(orderBy)) {
+      return 0;
     }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
+  
+    if (typeof a[orderBy] === 'number' && typeof b[orderBy] === 'number') {
+      return b[orderBy] - a[orderBy];
+    }
+  
+    if (typeof a[orderBy] === 'string' && typeof b[orderBy] === 'string') {
+      return a[orderBy].localeCompare(b[orderBy]);
+    }
+  
+    return 0;
+  }
+  
+  function getComparator(order, orderBy) {
+    return order === 'desc'
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  }
+  
+  function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) {
+        return order;
+      }
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
+  
 const headCells = [
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: true,
-    label: 'Dessert (100g serving)',
-  },
-  {
-    id: 'calories',
-    numeric: true,
-    disablePadding: false,
-    label: 'Calories',
-  },
-  {
-    id: 'fat',
-    numeric: true,
-    disablePadding: false,
-    label: 'Fat (g)',
-  },
-  {
-    id: 'carbs',
-    numeric: true,
-    disablePadding: false,
-    label: 'Carbs (g)',
-  },
-  {
-    id: 'protein',
-    numeric: true,
-    disablePadding: false,
-    label: 'Protein (g)',
-  },
+
+  { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
+  { id: 'void_fraction', numeric: true, disablePadding: false, label: 'Void Fraction' },
+  { id: 'surface_area_m2cm3', numeric: true, disablePadding: false, label: 'ASA [m²/cm³]' },
+  { id: 'surface_area_m2g', numeric: true, disablePadding: false, label: 'ASA [m²/g]' },
+  { id: 'pld', numeric: true, disablePadding: false, label: 'PLD [Å]' },
+  { id: 'lcd', numeric: true, disablePadding: false, label: 'LCD [Å]' },
 ];
+
+
 
 function EnhancedTableHead(props) {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
@@ -130,22 +156,21 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <StyledTableHeadCell padding="checkbox">
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              'aria-label': 'select all desserts',
+              'aria-label': 'select all',
             }}
           />
-        </TableCell>
+        </StyledTableHeadCell>
         {headCells.map((headCell) => (
-          <TableCell
+          <StyledTableHeadCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -160,12 +185,13 @@ function EnhancedTableHead(props) {
                 </Box>
               ) : null}
             </TableSortLabel>
-          </TableCell>
+          </StyledTableHeadCell>
         ))}
       </TableRow>
     </TableHead>
   );
 }
+
 
 EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
@@ -222,7 +248,7 @@ EnhancedTableToolbar.propTypes = {
 
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const [orderBy, setOrderBy] = React.useState('void_fraction');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -284,53 +310,51 @@ export default function EnhancedTable() {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
+    <Paper sx={{ width: '100%', mb: 2 }}>
+      <EnhancedTableToolbar numSelected={selected.length} />
+      <TableContainer>
+        <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
+          <EnhancedTableHead
+            // ... props passed down remain the same
+          />
+          <TableBody>
+  {visibleRows.map((row, index) => {
+    const isItemSelected = isSelected(row.name); // Ensure that 'isSelected' checks the correct identifier
+    const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell component="th" id={labelId} scope="row" padding="none">
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
-                  </TableRow>
-                );
-              })}
+    return (
+      <TableRow
+        hover
+        onClick={(event) => handleClick(event, row.name)} // Make sure 'handleClick' is using the correct identifier
+        role="checkbox"
+        aria-checked={isItemSelected}
+        tabIndex={-1}
+        key={row.name} // Ensure that 'key' is unique and consistent
+        selected={isItemSelected}
+        sx={{ cursor: 'pointer' }}
+      >
+        {/* Add Checkbox TableCell here, aligned with the TableHead */}
+        <StyledTableCell padding="checkbox">
+          <Checkbox
+            color="primary"
+            checked={isItemSelected}
+            inputProps={{
+              'aria-labelledby': labelId,
+            }}
+          />
+        </StyledTableCell>
+        {/* Rest of the cells */}
+        <StyledTableCell component="th" id={labelId} scope="row" padding="none">
+          {row.name}
+        </StyledTableCell>
+        <StyledTableCell align="right">{row.void_fraction}</StyledTableCell>
+        <StyledTableCell align="right">{row.surface_area_m2cm3}</StyledTableCell>
+        <StyledTableCell align="right">{row.surface_area_m2g}</StyledTableCell>
+        <StyledTableCell align="right">{row.pld}</StyledTableCell>
+        <StyledTableCell align="right">{row.lcd}</StyledTableCell>
+      </TableRow>
+    );
+  })}
               {emptyRows > 0 && (
                 <TableRow
                   style={{
