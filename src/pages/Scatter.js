@@ -5,6 +5,9 @@ import { extent } from "d3-array";
 import AxisLeft from "./AxisLeft";
 import AxisBottom from "./AxisBottom";
 import * as d3 from 'd3';
+import { debounce } from 'lodash';
+
+
 
 function createData(name, void_fraction, surface_area_m2cm3, surface_area_m2g, pld, lcd) {
   return {
@@ -40,14 +43,19 @@ function getData() {
   data.push(createData(customData8.name, customData8.void_fraction, customData8.surface_area_m2cm3, customData8.surface_area_m2g, customData8.pld, customData8.lcd));
   return data;
 }
-
+const Tooltip = React.memo(({x, y, name}) => (
+  <g>
+    <text x={x} y={y} textAnchor="middle">
+      {name}
+    </text>
+  </g>
+))
+const getHslColor = (hue) => `hsl(${hue}, 100%, 50%)`;
 function Scatter() {
   const [data, setData] = useState(getData());
   const [open, toggle] = useState(false);
-  const props = useSpring({
-    from: { r: 0, fill: "lightblue" },
-    to: { r: open ? 10 : 5, fill: open ? "purple" : "lightblue" }
-  });
+  const [hovered, setHovered] = useState(null);
+  const [tooltipPos, setTooltipPos] = useState({x: 0, y: 0});
 
   const w = 600,
     h = 400,
@@ -59,8 +67,8 @@ function Scatter() {
     };
 
   const width = w - margin.right - margin.left,
-    height = h - margin.top - margin.bottom;
-
+   height = h - margin.top - margin.bottom;
+  const lcdExtent = extent(data, d => d.lcd);
   const xScale = scaleLinear()
     .domain(extent(data, d => d.void_fraction))
     .range([0, width]);
@@ -70,26 +78,38 @@ function Scatter() {
     .range([height, 0]);
 
   let colorScale = scaleLinear()
-    .domain(extent(data, d => d.pld))
-    .range([0.5,1]);
+    .domain(lcdExtent)
+    .range([0, 360]);
+  const rScale = scaleLinear()
+  .domain(extent(data, d => d.pld))
+  .range([5, 10])
+  const props = useSpring({
+    from: { fill: getHslColor(colorScale(3)) },
+    to: { fill: getHslColor(colorScale(15)) }  
+  });
 
-  const colorMap = d3.interpolateReds;
 
-  function handleClick(e) {
-    setData(getData());
-    if (open) {
-      toggle(false);
-    } else {
-      toggle(true);
-    }
-  }
   const circles = data.map((d, i) => (
     <animated.circle
+    
       key={i}
-      r={props.r}
+      r={rScale(d.pld)}
       cx={xScale(d.void_fraction)}
       cy={yScale(d.surface_area_m2cm3)}
-      style={{ fill: colorMap(colorScale(d.pld)) }}
+      style={{ fill: getHslColor(colorScale(d.lcd)) }}
+      onMouseEnter={() => {
+        setHovered(d.name);
+        setTooltipPos({
+          x: xScale(d.void_fraction),
+          y: yScale(d.surface_area_m2cm3)  
+        });
+        const debouncedSetHovered = debounce(setHovered, 100);
+        debouncedSetHovered(d.name);
+      }}
+  
+      onMouseLeave={() => {
+        setHovered(null);
+      }}
     />
   ));
 
@@ -101,11 +121,14 @@ function Scatter() {
         <g transform={`translate(${margin.left},${margin.top})`}>
           <AxisLeft yScale={yScale} width={width} />
           <AxisBottom xScale={xScale} height={height} />
-          {/* X-axis label */}
-          
-
-          {/* Y-axis label */}
           {circles}
+          {hovered &&
+            <Tooltip 
+              x={tooltipPos.x}
+              y={tooltipPos.y}
+              name={hovered} 
+            />
+          }
         </g>
         <text
             x={-margin.left}

@@ -47,13 +47,12 @@ function getData() {
     lcd.push( customData8.lcd);
     data.push(createData('pld',pld));
     data.push(createData('lcd',lcd));
-    debugger;
     return data;
   }
 
 const Histogram =() => {
   var width = 600;
-  var height = 400;
+  var height = 450;
   const axesRef = useRef(null);
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
@@ -93,6 +92,10 @@ const Histogram =() => {
     return d3.scaleLinear().range([boundsHeight, 0]).domain([0, max]).nice();
   }, [data, height]);
 
+  const xAxisGenerator = d3.axisBottom(xScale).tickFormat(d => d + ' units'); 
+
+  const yAxisGenerator = d3.axisLeft(yScale).tickFormat(d => d + ' items');
+
   // Render the X axis using d3.js, not react
   useEffect(() => {
     const svgElement = d3.select(axesRef.current);
@@ -106,21 +109,49 @@ const Histogram =() => {
 
     const yAxisGenerator = d3.axisLeft(yScale);
     svgElement.append("g").call(yAxisGenerator);
+      // X axis 
+    svgElement
+    .append("g")
+    .attr("transform", "translate(0," + boundsHeight + ")") 
+    .call(xAxisGenerator);
+
+    svgElement.append("text")  
+    .attr("x", boundsWidth/2)
+    .attr("y", boundsHeight + MARGIN.bottom - 5)
+    .style("text-anchor", "middle")
+    .text("Units");
+
+    // Y axis
+    svgElement.append("g").call(yAxisGenerator); 
+
+    svgElement.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - MARGIN.left) 
+    .attr("x",0 - (boundsHeight / 2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .text("Number Of Structures");
   }, [xScale, yScale, boundsHeight]);
+  
+  var widthrect = 0;
+  var rectWidth = 0;
 
   const allRects = groupBuckets.map((group, i) =>
     group.buckets.map((bucket, j) => {
       const { x0, x1 } = bucket;
+      widthrect = xScale(x1) - xScale(x0) - BUCKET_PADDING;
+      rectWidth = Math.max(0, widthrect);
       if (x0 == undefined || x1 == undefined) {
         return null;
       }
+
       return (
         <rect
           key={i + "_" + j}
           fill={colorScale(group.name)}
           opacity={0.7}
           x={xScale(x0) + BUCKET_PADDING / 2}
-          width={xScale(x1) - xScale(x0) - BUCKET_PADDING}
+          width={rectWidth}
           y={yScale(bucket.length)}
           height={boundsHeight - yScale(bucket.length)}
         />
@@ -128,38 +159,11 @@ const Histogram =() => {
     })
   );
 
-  // useEffect(() => {
-  //   const legendElement = d3.select(legendRef.current);
-  //   legendElement.selectAll("*").remove();
-
-  //   const legend = legendElement
-  //     .selectAll(".legend")
-  //     .data(allGroupNames)
-  //     .enter()
-  //     .append("g")
-  //     .attr("class", "legend")
-  //     .attr("transform", (d, i) => `translate(0,${i * 20})`);
-
-  //   legend
-  //     .append("rect")
-  //     .attr("x", width - 18)
-  //     .attr("width", 18)
-  //     .attr("height", 18)
-  //     .style("fill", (d) => colorScale(d));
-
-  //   legend
-  //     .append("text")
-  //     .attr("x", width - 24)
-  //     .attr("y", 9)
-  //     .attr("dy", ".35em")
-  //     .style("text-anchor", "end")
-  //     .text((d) => d);
-  // }, [allGroupNames, width]);
 
 
   return (
-    <div>
-      <svg width={width} height={height}>
+<div>
+    <svg width={width} height={height}>
       <g
         width={boundsWidth}
         height={boundsHeight}
@@ -173,8 +177,17 @@ const Histogram =() => {
         ref={axesRef}
         transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
       />
+      <g transform={`translate(${width, 50})`}>
+        {allGroupNames.map((name, i) => (
+          <g key={name}>
+            <rect fill={colorScale(name)} y={i * 20} width={20} height={20} />
+            <text x={30} y={i * 20 + 15}>{name}</text>
+    </g>
+  ))}
+</g>
     </svg>
-    </div>
+    
+  </div>
     
     
   );
