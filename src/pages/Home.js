@@ -2,12 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Molecules from './Molecules';
 import ScatterPlot from './ScatterPlot';
-import Scatter from "./Scatter";
-import Histogram from "./Histogram";
+import Scatter from './Scatter';
+import Histogram from './Histogram';
 import TableComponent from './TableComponent';
-import ReactDOM from "react-dom";
-
-
+import ReactDOM from 'react-dom';
+import Typography from '@mui/material/Typography';
 
 const Block = ({ title, linkTo }) => (
   <div className="col-md-6">
@@ -20,25 +19,28 @@ const Block = ({ title, linkTo }) => (
 );
 
 const Home = () => {
+  const [selectedMof, setSelectedMof] = React.useState('hMOF-0');
+
   return (
     <>
       <div className="container">
-        <h1 className="my-4">Mof Vis</h1>
+        <Typography variant="h3" gutterBottom>
+          MOF Visualization
+        </Typography>
         <div className="row">
-          {/* <Block title="Block 1" linkTo="/molecule-vis" /> */}
-          <div className="col-md-6">
+          <div className="col-md-5">
             <div className="card-body">
-              <TableComponent></TableComponent>
+              <TableComponent setSelectedMof={setSelectedMof}></TableComponent>
+            </div>
+          </div>
+          <div className="col-md-7">
+            <div className="card-body">
+              <Molecules selectedMof={selectedMof}></Molecules>
             </div>
           </div>
           <div className="col-md-6">
             <div className="card-body">
-              <Molecules></Molecules>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="card-body">
-            <Histogram/>
+              <Histogram />
             </div>
           </div>
           <div className="col-md-6">
@@ -46,13 +48,11 @@ const Home = () => {
               {/* <div className={'shadow'} style={{'height':'23vw','width':'calc(48vw - 10em)','maxHeight':'80vh','display':'inline-block','margin':'3px'}}>
                 <ScatterPlot></ScatterPlot>
               </div> */}
-                  <div className="App">
-                    <Scatter />
-                  </div>
+              <Scatter />
             </div>
           </div>
         </div>
-      </div>      
+      </div>
     </>
   );
 };
