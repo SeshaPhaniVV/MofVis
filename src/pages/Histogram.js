@@ -5,7 +5,7 @@ const MARGIN = { top: 30, right: 30, bottom: 40, left: 50 };
 const BUCKET_NUMBER = 20;
 const BUCKET_PADDING = 4;
 
-const COLORS = ['#e0ac2b', '#e85252', '#6689c6', '#9a6fb0', '#a53253'];
+const COLORS = ['#3181CC', '#DD0B17'];
 
 function createData(name, values) {
   return {

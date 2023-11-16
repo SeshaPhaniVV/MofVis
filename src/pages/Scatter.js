@@ -28,6 +28,13 @@ function getData() {
   const customData6 = require('./../json_data/hMOF-6.json');
   const customData7 = require('./../json_data/hMOF-7.json');
   const customData8 = require('./../json_data/hMOF-8.json');
+  const customData9 = require('./../json_data/hMOF-9.json');
+  const customData10 = require('./../json_data/hMOF-10.json');
+  const customData11 = require('./../json_data/hMOF-11.json');
+  const customData12 = require('./../json_data/hMOF-12.json');
+  const customData13 = require('./../json_data/hMOF-13.json');
+  const customData14 = require('./../json_data/hMOF-15.json');
+  const customData15 = require('./../json_data/hMOF-25.json');
   let data = [];
   data.push(
     createData(
@@ -119,8 +126,80 @@ function getData() {
       customData8.lcd,
     ),
   );
+  data.push(
+    createData(
+      customData9.name,
+      customData9.void_fraction,
+      customData9.surface_area_m2cm3,
+      customData9.surface_area_m2g,
+      customData9.pld,
+      customData9.lcd,
+    ),
+  );
+  data.push(
+    createData(
+      customData10.name,
+      customData10.void_fraction,
+      customData10.surface_area_m2cm3,
+      customData10.surface_area_m2g,
+      customData10.pld,
+      customData10.lcd,
+    ),
+  );
+  data.push(
+    createData(
+      customData11.name,
+      customData11.void_fraction,
+      customData11.surface_area_m2cm3,
+      customData11.surface_area_m2g,
+      customData11.pld,
+      customData11.lcd,
+    ),
+  );
+  data.push(
+    createData(
+      customData12.name,
+      customData12.void_fraction,
+      customData12.surface_area_m2cm3,
+      customData12.surface_area_m2g,
+      customData12.pld,
+      customData12.lcd,
+    ),
+  );
+  data.push(
+    createData(
+      customData13.name,
+      customData13.void_fraction,
+      customData13.surface_area_m2cm3,
+      customData13.surface_area_m2g,
+      customData13.pld,
+      customData13.lcd,
+    ),
+  );
+  data.push(
+    createData(
+      customData14.name,
+      customData14.void_fraction,
+      customData14.surface_area_m2cm3,
+      customData14.surface_area_m2g,
+      customData14.pld,
+      customData14.lcd,
+    ),
+  );
+  data.push(
+    createData(
+      customData15.name,
+      customData15.void_fraction,
+      customData15.surface_area_m2cm3,
+      customData15.surface_area_m2g,
+      customData15.pld,
+      customData15.lcd,
+    ),
+  );
+
   return data;
 }
+
 const Tooltip = React.memo(({ x, y, name }) => (
   <g>
     <text x={x} y={y} textAnchor="middle">
