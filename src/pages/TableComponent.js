@@ -333,6 +333,7 @@ export default function EnhancedTable({ setSelectedMof }) {
   const [rows, setRows] = React.useState(originalRows);
 
   const requestSearch = (searchedVal) => {
+    setSearched(searchedVal);
     const lowercasedValue = searchedVal.toLowerCase();
     const filteredData = originalRows.filter((row) => row.name.toLowerCase().includes(lowercasedValue));
     const sortedData = stableSort(filteredData, getComparator(order, orderBy));
@@ -340,7 +341,7 @@ export default function EnhancedTable({ setSelectedMof }) {
   };
 
   const handleSearchChange = (searchVal) => {
-    setSearched('');
+    setSearched(searchVal);
     const sortedData = stableSort(originalRows, getComparator(order, orderBy));
     setRows(sortedData);
   };
@@ -410,7 +411,7 @@ export default function EnhancedTable({ setSelectedMof }) {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar onCancelSearch={cancelSearch} onSearchChange={handleSearchChange} searched={searched} />
+        <EnhancedTableToolbar onCancelSearch={cancelSearch} onSearchChange={requestSearch} searched={searched} />
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
             <EnhancedTableHead onRequestSort={handleRequestSort} order={order} orderBy={orderBy} />

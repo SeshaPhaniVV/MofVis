@@ -24,20 +24,22 @@ const Home = () => {
   return (
     <>
       <div className="container">
-        <Typography variant="h3" gutterBottom>
-          MOF Visualization
-        </Typography>
         <div className="row">
           <div className="col-md-5">
             <div className="card-body">
-              <TableComponent setSelectedMof={setSelectedMof}></TableComponent>
+              <Typography variant="h4" gutterBottom>
+                MOF Visualization
+              </Typography>
+              <TableComponent setSelectedMof={setSelectedMof} />
             </div>
           </div>
           <div className="col-md-7">
             <div className="card-body">
-              <Molecules selectedMof={selectedMof}></Molecules>
+              <Molecules selectedMof={selectedMof} />
             </div>
           </div>
+        </div>
+        <div className="row">
           <div className="col-md-6">
             <div className="card-body">
               <Histogram />
@@ -45,9 +47,6 @@ const Home = () => {
           </div>
           <div className="col-md-6">
             <div className="card-body">
-              {/* <div className={'shadow'} style={{'height':'23vw','width':'calc(48vw - 10em)','maxHeight':'80vh','display':'inline-block','margin':'3px'}}>
-                <ScatterPlot></ScatterPlot>
-              </div> */}
               <Scatter />
             </div>
           </div>

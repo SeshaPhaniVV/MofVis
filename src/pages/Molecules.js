@@ -73,11 +73,11 @@ const Molecules = ({ selectedMof }) => {
     scene.add(root);
 
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(900, 500);
+    renderer.setSize(825, 500);
     document.getElementById('container').appendChild(renderer.domElement);
 
     labelRenderer = new CSS2DRenderer();
-    labelRenderer.setSize(900, 500);
+    labelRenderer.setSize(825, 500);
     labelRenderer.domElement.style.position = 'absolute';
     labelRenderer.domElement.style.top = '0px';
     labelRenderer.domElement.style.pointerEvents = 'none';
@@ -231,7 +231,7 @@ const Molecules = ({ selectedMof }) => {
 
   return (
     <>
-      <div id="container" style={{ position: 'relative', width: '100%', height: '100vh' }}>
+      <div id="container" style={{ position: 'relative', width: '100%' }}>
         <button
           style={{
             position: 'absolute',

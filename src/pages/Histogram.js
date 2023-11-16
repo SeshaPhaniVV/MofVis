@@ -15,42 +15,6 @@ function createData(name, values) {
 }
 
 function getData() {
-<<<<<<< Updated upstream
-    const customData0 = require("./../json_data/hMOF-0.json");
-    const customData1 = require("./../json_data/hMOF-1.json");
-    const customData2 = require("./../json_data/hMOF-2.json");
-    const customData3 = require("./../json_data/hMOF-3.json");
-    const customData4 = require("./../json_data/hMOF-4.json");
-    const customData5 = require("./../json_data/hMOF-5.json");
-    const customData6 = require("./../json_data/hMOF-6.json");
-    const customData7 = require("./../json_data/hMOF-7.json");
-    const customData8 = require("./../json_data/hMOF-8.json");
-    let data = [];
-    let pld = [];
-    let lcd = [];
-    pld.push( customData0.pld);
-    pld.push( customData1.pld);
-    pld.push( customData2.pld);
-    pld.push( customData3.pld);
-    pld.push( customData4.pld);
-    pld.push( customData5.pld);
-    pld.push( customData6.pld);
-    pld.push( customData7.pld);
-    pld.push( customData8.pld);
-    lcd.push( customData0.lcd);
-    lcd.push( customData1.lcd);
-    lcd.push( customData2.lcd);
-    lcd.push( customData3.lcd);
-    lcd.push( customData4.lcd);
-    lcd.push( customData5.lcd);
-    lcd.push( customData6.lcd);
-    lcd.push( customData7.lcd);
-    lcd.push( customData8.lcd);
-    data.push(createData('pld',pld));
-    data.push(createData('lcd',lcd));
-    return data;
-  }
-=======
   const customData0 = require('./../json_data/hMOF-0.json');
   const customData1 = require('./../json_data/hMOF-1.json');
   const customData2 = require('./../json_data/hMOF-2.json');
@@ -85,11 +49,10 @@ function getData() {
   data.push(createData('lcd', lcd));
   return data;
 }
->>>>>>> Stashed changes
 
 const Histogram = () => {
   var width = 600;
-  var height = 450;
+  var height = 200;
   const axesRef = useRef(null);
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
@@ -122,9 +85,9 @@ const Histogram = () => {
     return d3.scaleLinear().range([boundsHeight, 0]).domain([0, max]).nice();
   }, [data, height]);
 
-  const xAxisGenerator = d3.axisBottom(xScale).tickFormat(d => d + ' units'); 
+  const xAxisGenerator = d3.axisBottom(xScale).tickFormat((d) => d + ' units');
 
-  const yAxisGenerator = d3.axisLeft(yScale).tickFormat(d => d + ' items');
+  const yAxisGenerator = d3.axisLeft(yScale).tickFormat((d) => d + ' items');
 
   // Render the X axis using d3.js, not react
   useEffect(() => {
@@ -138,35 +101,33 @@ const Histogram = () => {
       .call(xAxisGenerator);
 
     const yAxisGenerator = d3.axisLeft(yScale);
-<<<<<<< Updated upstream
-    svgElement.append("g").call(yAxisGenerator);
-      // X axis 
+    svgElement.append('g').call(yAxisGenerator);
+    // X axis
     svgElement
-    .append("g")
-    .attr("transform", "translate(0," + boundsHeight + ")") 
-    .call(xAxisGenerator);
+      .append('g')
+      .attr('transform', 'translate(0,' + boundsHeight + ')')
+      .call(xAxisGenerator);
 
-    svgElement.append("text")  
-    .attr("x", boundsWidth/2)
-    .attr("y", boundsHeight + MARGIN.bottom - 5)
-    .style("text-anchor", "middle")
-    .text("Units");
+    svgElement
+      .append('text')
+      .attr('x', boundsWidth / 2)
+      .attr('y', boundsHeight + MARGIN.bottom - 5)
+      .style('text-anchor', 'middle')
+      .text('Units');
 
     // Y axis
-    svgElement.append("g").call(yAxisGenerator); 
-
-    svgElement.append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 0 - MARGIN.left) 
-    .attr("x",0 - (boundsHeight / 2))
-    .attr("dy", "1em")
-    .style("text-anchor", "middle")
-    .text("Number Of Structures");
-=======
     svgElement.append('g').call(yAxisGenerator);
->>>>>>> Stashed changes
+
+    svgElement
+      .append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', 0 - MARGIN.left)
+      .attr('x', 0 - boundsHeight / 2)
+      .attr('dy', '1em')
+      .style('text-anchor', 'middle')
+      .text('Number Of Structures');
   }, [xScale, yScale, boundsHeight]);
-  
+
   var widthrect = 0;
   var rectWidth = 0;
 
@@ -193,38 +154,7 @@ const Histogram = () => {
     }),
   );
 
-
   return (
-<<<<<<< Updated upstream
-<div>
-    <svg width={width} height={height}>
-      <g
-        width={boundsWidth}
-        height={boundsHeight}
-        transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
-      >
-        {allRects}
-      </g>
-      <g
-        width={boundsWidth}
-        height={boundsHeight}
-        ref={axesRef}
-        transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
-      />
-      <g transform={`translate(${width, 50})`}>
-        {allGroupNames.map((name, i) => (
-          <g key={name}>
-            <rect fill={colorScale(name)} y={i * 20} width={20} height={20} />
-            <text x={30} y={i * 20 + 15}>{name}</text>
-    </g>
-  ))}
-</g>
-    </svg>
-    
-  </div>
-    
-    
-=======
     <div>
       <svg width={width} height={height}>
         <g width={boundsWidth} height={boundsHeight} transform={`translate(${[MARGIN.left, MARGIN.top].join(',')})`}>
@@ -236,9 +166,18 @@ const Histogram = () => {
           ref={axesRef}
           transform={`translate(${[MARGIN.left, MARGIN.top].join(',')})`}
         />
+        <g transform={`translate(${(width, 50)})`}>
+          {allGroupNames.map((name, i) => (
+            <g key={name}>
+              <rect fill={colorScale(name)} y={i * 20} width={20} height={20} />
+              <text x={30} y={i * 20 + 15}>
+                {name}
+              </text>
+            </g>
+          ))}
+        </g>
       </svg>
     </div>
->>>>>>> Stashed changes
   );
 };
 
