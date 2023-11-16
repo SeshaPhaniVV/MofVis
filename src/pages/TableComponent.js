@@ -21,6 +21,7 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+//import { jsonLoader } from '/Users/photon/Documents/GitHub/MofVis/src/loaders/jsonLoader.js';
 
 function createData(id, name, calories, fat, carbs, protein) {
   return {
@@ -32,6 +33,13 @@ function createData(id, name, calories, fat, carbs, protein) {
     protein,
   };
 }
+//l = ["path1","path2"]
+//for(int){
+ // const jsonloader = new jsonLoader();
+//  var jsonjData = jsonloader.load(l[2]);
+
+//}
+
 
 const rows = [
   createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
