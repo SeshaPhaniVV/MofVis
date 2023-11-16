@@ -22,7 +22,7 @@ const Molecules = ({ selectedMof }) => {
     'hMOF-9': 'ybco',
   };
 
-  const fileName = map[selectedMof] ? `${map[selectedMof]}.pdb` : 'caffeine.pdb';
+  const fileName = map[selectedMof] ? `${map[selectedMof]}.pdb` : `${selectedMof}.pdb`;
   console.log({ fileName });
 
   const [molecule, setMolecule] = useState(fileName);
@@ -47,7 +47,8 @@ const Molecules = ({ selectedMof }) => {
   const offset = new THREE.Vector3();
 
   useEffect(() => {
-    setMolecule(`${map[selectedMof]}.pdb`);
+    const fileName = map[selectedMof] ? `${map[selectedMof]}.pdb` : `${selectedMof}.pdb`;
+    setMolecule(fileName);
   }, [selectedMof]);
 
   useEffect(() => {
@@ -208,26 +209,6 @@ const Molecules = ({ selectedMof }) => {
     renderer.render(scene, camera);
     labelRenderer.render(scene, camera);
   }
-
-  const togglePause = () => {
-    setIsPaused(!isPaused);
-    if (!isPaused) {
-      const time = Date.now() * 0.0004;
-      if (root && root.rotation) {
-        console.log({ root });
-        root.rotation.x = time;
-        root.rotation.y = time * 0.7;
-      }
-    } else {
-      if (root && root.rotation) {
-        console.log({ root });
-        root.rotation.x = 0;
-        root.rotation.y = 0;
-      }
-    }
-    renderer.clear();
-    renderer.render(scene, camera);
-  };
 
   return (
     <>

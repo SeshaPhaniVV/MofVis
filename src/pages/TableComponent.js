@@ -394,12 +394,7 @@ export default function EnhancedTable({ setSelectedMof }) {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const handleNameClick = (name) => {
-    console.log({ name });
     setSelectedMof(name);
   };
 
