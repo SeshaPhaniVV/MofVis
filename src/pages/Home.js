@@ -45,10 +45,9 @@ const Home = () => {
           </div>
           <div className="col-md-6">
             <div className="card-body">
-              {/* <div className={'shadow'} style={{'height':'23vw','width':'calc(48vw - 10em)','maxHeight':'80vh','display':'inline-block','margin':'3px'}}>
-                <ScatterPlot></ScatterPlot>
-              </div> */}
-              <Scatter />
+              <div className="App">
+                    <Scatter />
+                  </div>
             </div>
           </div>
         </div>
