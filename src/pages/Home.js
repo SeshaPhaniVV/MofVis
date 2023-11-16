@@ -39,12 +39,12 @@ const Home = () => {
           </div>
         </div>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div className="card-body">
               <Histogram />
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-8">
             <div className="card-body">
               <Scatter />
             </div>

@@ -51,8 +51,8 @@ function getData() {
 }
 
 const Histogram = () => {
-  var width = 600;
-  var height = 200;
+  var width = 500;
+  var height = 250;
   const axesRef = useRef(null);
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;

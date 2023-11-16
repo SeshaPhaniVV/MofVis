@@ -136,10 +136,10 @@ function Scatter() {
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
   const w = 800,
-    h = 400,
+    h = 200,
     margin = {
-      top: 40,
-      bottom: 40,
+      top: 10,
+      bottom: 20,
       left: 40,
       right: 40,
     };
@@ -165,7 +165,7 @@ function Scatter() {
   });
 
   const ColorLegend = () => {
-    const legendWidth = 20;
+    const legendWidth = 8;
     const legendHeight = 320;
 
     let colorScale = scaleLinear()
@@ -173,7 +173,7 @@ function Scatter() {
     .range([0, 360]); 
 
     return (
-      <g transform={`translate(${width + margin.left },${margin.top})`}>
+      <g style={{zIndex: 10}} transform={`translate(${width + margin.left +12 },${margin.top})`}>
         <defs>
           <linearGradient id="legendGradient" x1="0%" y1="100%" x2="0%" y2="0%">
             {colorScale.ticks(10).map((tick, i) => (
@@ -185,16 +185,10 @@ function Scatter() {
           x={0}
           y={0}
           width={legendWidth}
-          height={legendHeight}
+          height={legendHeight-150}
           fill="url(#legendGradient)"
         />
-        <text x={legendWidth + 5} y={legendHeight} alignmentBaseline="hanging">
-          {lcdExtent[0].toFixed(2)}
-        </text>
-        <text x={legendWidth + 5} y={0} textAnchor="middle" alignmentBaseline="baseline">
-          {lcdExtent[1].toFixed(2)}
-        </text>
-        <text x={legendWidth / 2} y={legendHeight + 17} textAnchor="middle">
+        <text x={legendWidth} y={legendHeight-130} textAnchor="middle">
           LCD
         </text>
       </g>
@@ -225,32 +219,33 @@ function Scatter() {
   ));
 
   return (
-    <div>
-      <h6> Scatter Plot </h6>
+    <div  className="textAlign">
+      <h6 > Scatter Plot </h6>
       <svg width={w} height={h}>
-        <g transform={`translate(${margin.left},${margin.top})`}>
+        <g transform={`translate(${margin.left+10},${margin.top-30})translate(0, ${margin.bottom+10})
+  translate(${margin.right-50}, 0)`}>
           <AxisLeft yScale={yScale} width={width} />
           <AxisBottom xScale={xScale} height={height} />
           {circles}
           {hovered && <Tooltip x={tooltipPos.x} y={tooltipPos.y} name={hovered} />}
         </g>
-        <text
-            x={-margin.left}
-            y={height-188}
+        <text 
+            x={-margin.left + 80}
+            y={height-110}
             transform={`rotate(-90, ${margin.left}, ${height / 2})`}
             textAnchor="middle"
           >
-            Surface Area (m^2/cm^3)
+            Surface Area
           </text>
           {ColorLegend()}
       </svg>
       <div>
-      <text
-        x={width / 2}
-        y={height + margin.top + 50 }
-        textAnchor="middle"
-      >
-        Void Fraction
+        <text
+          x={width / 2}
+          y={height + margin.top + 50 }
+          textAnchor="middle"
+        >
+          Void Fraction
       </text>
       </div>
     </div>
