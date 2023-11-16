@@ -61,9 +61,9 @@ from gemmi import cif, read_structure, CoorFormat
 # doc = cif.read_file(
 #     '../public/models/molGAN-MOF-Ncopper_paddle_pillar-L113COO-L130COO-L127Pyridine.cif')
 
-doc = cif.read_file('../public/models/caffeine.pdb')
+# doc = cif.read_file('../public/models/caffeine.pdb')
 
-print(doc.as_json())
+# print(doc.as_json())
 
 # print(doc)
 # doc.write_pdb('output.pdb')
@@ -102,15 +102,18 @@ def upload_and_convert():
         # Perform the PyMOL functionality
         with pymol2.PyMOL() as pymol:
             pymol.cmd.load(file.filename, 'myprotein')
-            output_file = file.filename.replace('.cif', '.pdb')
-            pymol.cmd.save(output_file, selection='myprotein')
+            current_dir = os.path.dirname(__file__)
+            output_dir = os.path.join(current_dir, '..', 'public', 'models')
+            output_file_name = os.path.basename(
+                file.filename).replace('.cif', '.pdb')
+            print(output_dir, output_file_name, output_file_path)
+            output_file_path = os.path.join(output_dir, output_file_name)
+            pymol.cmd.save(output_file_path, selection='myprotein')
 
         # Clean up the uploaded file
         os.remove(file.filename)
 
-        return jsonify({'success': f'File converted to {output_file}'})
+        return jsonify({'success': f'File converted to {output_file_path}'})
 
     except Exception as e:
-        print('testing errrorr.....', str(e))
-        print(str(e))
         return jsonify({'error': str(e)})
