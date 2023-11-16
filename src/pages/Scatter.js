@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useSpring, animated } from 'react-spring';
-import { scaleLinear } from 'd3-scale';
-import { extent } from 'd3-array';
-import AxisLeft from './AxisLeft';
-import AxisBottom from './AxisBottom';
+import React, { useState } from "react";
+import { useSpring, animated } from "react-spring";
+import { scaleLinear,scaleSequential } from "d3-scale";
+import { extent } from "d3-array";
+import AxisLeft from "./AxisLeft";
+import AxisBottom from "./AxisBottom";
 import * as d3 from 'd3';
 import { debounce } from 'lodash';
 
@@ -135,7 +135,7 @@ function Scatter() {
   const [hovered, setHovered] = useState(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
-  const w = 600,
+  const w = 800,
     h = 400,
     margin = {
       top: 40,
@@ -164,6 +164,44 @@ function Scatter() {
     to: { fill: getHslColor(colorScale(15)) },
   });
 
+  const ColorLegend = () => {
+    const legendWidth = 20;
+    const legendHeight = 320;
+
+    let colorScale = scaleLinear()
+    .domain(lcdExtent)
+    .range([0, 360]); 
+
+    return (
+      <g transform={`translate(${width + margin.left },${margin.top})`}>
+        <defs>
+          <linearGradient id="legendGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+            {colorScale.ticks(10).map((tick, i) => (
+              <stop key={i} offset={`${(i / 9) * 100}%`} stopColor={getHslColor(colorScale(tick))} />
+            ))}
+          </linearGradient>
+        </defs>
+        <rect
+          x={0}
+          y={0}
+          width={legendWidth}
+          height={legendHeight}
+          fill="url(#legendGradient)"
+        />
+        <text x={legendWidth + 5} y={legendHeight} alignmentBaseline="hanging">
+          {lcdExtent[0].toFixed(2)}
+        </text>
+        <text x={legendWidth + 5} y={0} textAnchor="middle" alignmentBaseline="baseline">
+          {lcdExtent[1].toFixed(2)}
+        </text>
+        <text x={legendWidth / 2} y={legendHeight + 17} textAnchor="middle">
+          LCD
+        </text>
+      </g>
+    );
+  };
+
+
   const circles = data.map((d, i) => (
     <animated.circle
       key={i}
@@ -188,8 +226,7 @@ function Scatter() {
 
   return (
     <div>
-      {/* <h6> Scatter Plot </h6> */}
-      {/* <button onClick={handleClick}>Click Me</button> */}
+      <h6> Scatter Plot </h6>
       <svg width={w} height={h}>
         <g transform={`translate(${margin.left},${margin.top})`}>
           <AxisLeft yScale={yScale} width={width} />
@@ -198,22 +235,23 @@ function Scatter() {
           {hovered && <Tooltip x={tooltipPos.x} y={tooltipPos.y} name={hovered} />}
         </g>
         <text
-          x={-margin.left}
-          y={height - 188}
-          transform={`rotate(-90, ${margin.left}, ${height / 2})`}
-          textAnchor="middle"
-        >
-          Surface Area (m^2/cm^3)
-        </text>
+            x={-margin.left}
+            y={height-188}
+            transform={`rotate(-90, ${margin.left}, ${height / 2})`}
+            textAnchor="middle"
+          >
+            Surface Area (m^2/cm^3)
+          </text>
+          {ColorLegend()}
       </svg>
       <div>
-        <text
-          x={width / 2}
-          y={height + margin.top + 50} // Adjust the vertical position as needed
-          textAnchor="middle"
-        >
-          Void Fraction
-        </text>
+      <text
+        x={width / 2}
+        y={height + margin.top + 50 }
+        textAnchor="middle"
+      >
+        Void Fraction
+      </text>
       </div>
     </div>
   );

@@ -89,7 +89,6 @@ const Histogram = () => {
 
   const yAxisGenerator = d3.axisLeft(yScale).tickFormat((d) => d + ' items');
 
-  // Render the X axis using d3.js, not react
   useEffect(() => {
     const svgElement = d3.select(axesRef.current);
     svgElement.selectAll('*').remove();
@@ -101,8 +100,8 @@ const Histogram = () => {
       .call(xAxisGenerator);
 
     const yAxisGenerator = d3.axisLeft(yScale);
-    svgElement.append('g').call(yAxisGenerator);
-    // X axis
+    svgElement.append("g").call(yAxisGenerator);
+
     svgElement
       .append('g')
       .attr('transform', 'translate(0,' + boundsHeight + ')')
@@ -115,8 +114,7 @@ const Histogram = () => {
       .style('text-anchor', 'middle')
       .text('Units');
 
-    // Y axis
-    svgElement.append('g').call(yAxisGenerator);
+    svgElement.append("g").call(yAxisGenerator); 
 
     svgElement
       .append('text')
