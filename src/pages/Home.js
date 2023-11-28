@@ -7,6 +7,9 @@ import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import axios from 'axios';
+import getData from '../loaders/jsonLoader';
+import { data } from "./data";
+import  Violin from "./Violin";
 
 const Home = () => {
   const [selectedMof, setSelectedMof] = React.useState('hMOF-0');
@@ -79,7 +82,7 @@ const Home = () => {
         <div className="row">
           <div className="col-md-4">
             <div className="card-body">
-              <Histogram />
+            <Violin width={600} height={400} data={data} />
             </div>
           </div>
           <div className="col-md-8">

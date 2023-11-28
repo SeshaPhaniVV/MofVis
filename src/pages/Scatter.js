@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React, { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { scaleLinear } from 'd3-scale';
@@ -33,6 +34,18 @@ function getData() {
   });
 }
 
+=======
+import React, { useState } from "react";
+import { useSpring, animated } from "react-spring";
+import { scaleLinear,scaleSequential } from "d3-scale";
+import { extent } from "d3-array";
+import AxisLeft from "./AxisLeft";
+import AxisBottom from "./AxisBottom";
+import getData from "../loaders/jsonLoader";
+import * as d3 from 'd3';
+import { debounce } from 'lodash';
+
+>>>>>>> Stashed changes
 const Tooltip = React.memo(({ x, y, name }) => (
   <g>
     <text x={x} y={y} textAnchor="middle">
@@ -47,7 +60,7 @@ function Scatter() {
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
   const w = 800,
-    h = 200,
+    h = 350,
     margin = {
       top: 10,
       bottom: 20,
