@@ -52,7 +52,7 @@ function createData(name, void_fraction, surface_area_m2cm3, surface_area_m2g, p
 
 const customData = [];
 
-for (let i = 0; i <= 12; i++) {
+for (let i = 0; i <= 15; i++) {
   customData[i] = require(`./../json_data/hMOF-${i}.json`);
 }
 

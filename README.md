@@ -93,8 +93,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ## Credits
 
-- https://threejs.org/examples/webgl_loader_pdb
 - https://github.com/facebook/create-react-app
 - https://github.com/schrodinger/pymol-open-source
 - https://flask.palletsprojects.com/en/3.0.x/
+- https://threejs.org/examples/webgl_loader_pdb
 - https://anaconda.org/anaconda/conda

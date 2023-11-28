@@ -15,7 +15,13 @@ const Molecules = ({ selectedMof }) => {
     'hMOF-6': 'lsd',
     'hMOF-7': 'lycopene',
     'hMOF-8': 'nicotine',
-    'hMOF-9': 'ybco',
+    'hMOF-9': 'ala_phe_ala',
+    'hMOF-10': 'Al2O3',
+    'hMOF-11': 'aspirin',
+    'hMOF-12': 'buckyball',
+    'hMOF-13': 'caf2',
+    'hMOF-14': 'cu',
+    'hMOF-15': 'cubane',
   };
 
   const fileName = map[selectedMof] ? `${map[selectedMof]}.pdb` : `${selectedMof}.pdb`;
