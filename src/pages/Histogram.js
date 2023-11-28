@@ -32,7 +32,7 @@ function getData() {
   return data;
 }
 
-const Histogram = () => {
+const Histogram = ({ structuresData }) => {
   var width = 500;
   var height = 250;
   const axesRef = useRef(null);
