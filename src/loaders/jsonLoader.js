@@ -18,7 +18,7 @@ function createDataViolin(name, values) {
 
 function getDataViolin() {
   let data = [];
-  const numberOfFiles = 16; // Adjust based on your file count
+  const numberOfFiles = 16;
   for (let i = 0; i < numberOfFiles; i++) {
     const item = require(`./../json_data/hMOF-${i}.json`);
     data.push(createDataViolin('pld', item.pld));
@@ -29,7 +29,7 @@ function getDataViolin() {
 
 function getData() {
   const data = [];
-  const numberOfFiles = 16; // Adjust based on your file count
+  const numberOfFiles = 16;
   for (let i = 0; i < numberOfFiles; i++) {
     const item = require(`./../json_data/hMOF-${i}.json`);
     data.push(

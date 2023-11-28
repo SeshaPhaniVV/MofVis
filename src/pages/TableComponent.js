@@ -20,10 +20,12 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
-import { ButtonBase } from '@mui/material';
+import { Button } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: theme.palette.common.white,
+  fontSize: '0.8rem',
   color: theme.palette.common.black,
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
@@ -35,8 +37,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableHeadCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: '#5D8AA8', // light green color for heading
-  color: theme.palette.common.black,
   fontWeight: 'bold',
+  padding: '10px',
+  fontSize: '0.8rem',
 }));
 
 function createData(name, void_fraction, surface_area_m2cm3, surface_area_m2g, pld, lcd) {
@@ -106,12 +109,48 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
-  { id: 'void_fraction', numeric: true, disablePadding: false, label: 'Void Fraction' },
-  { id: 'surface_area_m2cm3', numeric: true, disablePadding: false, label: 'ASA [m²/cm³]' },
-  { id: 'surface_area_m2g', numeric: true, disablePadding: false, label: 'ASA [m²/g]' },
-  { id: 'pld', numeric: true, disablePadding: false, label: 'PLD [Å]' },
-  { id: 'lcd', numeric: true, disablePadding: false, label: 'LCD [Å]' },
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: true,
+    label: 'Name',
+    tooltipText: 'The unique name or identifier for each entry.',
+  },
+  {
+    id: 'void_fraction',
+    numeric: true,
+    disablePadding: false,
+    label: 'Void Fraction',
+    tooltipText: 'The fraction of the volume of voids over the total volume.',
+  },
+  {
+    id: 'surface_area_m2cm3',
+    numeric: true,
+    disablePadding: false,
+    label: 'ASA [m²/cm³]',
+    tooltipText: 'Surface area per unit volume in square meters per cubic centimeter.',
+  },
+  {
+    id: 'surface_area_m2g',
+    numeric: true,
+    disablePadding: false,
+    label: 'ASA [m²/g]',
+    tooltipText: 'Surface area per unit mass in square meters per gram.',
+  },
+  {
+    id: 'pld',
+    numeric: true,
+    disablePadding: false,
+    label: 'PLD [Å]',
+    tooltipText: 'Pore limiting diameter, indicating the maximum size of molecules that can enter the pores.',
+  },
+  {
+    id: 'lcd',
+    numeric: true,
+    disablePadding: false,
+    label: 'LCD [Å]',
+    tooltipText: 'Largest cavity diameter, representing the size of the largest cavity within the structure.',
+  },
 ];
 
 function EnhancedTableHead(props) {
@@ -134,7 +173,11 @@ function EnhancedTableHead(props) {
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
-              {headCell.label}
+              <Tooltip title={headCell.tooltipText || 'Information'}>
+                <span>
+                  {headCell.label} <InfoIcon sx={{ fontSize: '10px' }} />
+                </span>
+              </Tooltip>
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
@@ -301,12 +344,13 @@ export default function EnhancedTable({ setSelectedMof }) {
                       scope="row"
                       sx={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}
                     >
-                      <ButtonBase
+                      <Button
+                        variant="contained"
                         onClick={() => handleNameClick(row.name)}
-                        sx={{ width: '100%', justifyContent: 'left' }}
+                        sx={{ width: '100%', justifyContent: 'left', fontSize: '0.8rem' }}
                       >
                         {row.name}
-                      </ButtonBase>
+                      </Button>
                     </StyledTableCell>
                     <StyledTableCell align="right">{row.void_fraction}</StyledTableCell>
                     <StyledTableCell align="right">{row.surface_area_m2cm3}</StyledTableCell>
