@@ -7,7 +7,7 @@ function createDataViolin(name, values) {
   
   function getDataViolin() {
     let data = [];
-    const numberOfFiles = 16;
+    const numberOfFiles = 30;
     for (let i = 0; i < numberOfFiles; i++) {
       const item = require(`./../json_data/hMOF-${i}.json`);
       data.push(createDataViolin('Pore Limiting Diameter', item.pld));

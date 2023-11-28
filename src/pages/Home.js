@@ -181,7 +181,7 @@ const Home = () => {
               {graph2Size.width > 0 && <Scatter w={graph2Size.width} h={graph2Size.height} />}
             </div>
           </div>
-          <div ref={graph1Ref} className="col-md-4">
+          <div ref={graph1Ref} className="col-md-4" >
             <div className="card-body">
               {graph1Size.width > 0 && (
                 <StackedBarplot structuresData={structures} width={graph1Size.width} height={graph1Size.height} />

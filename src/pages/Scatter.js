@@ -8,6 +8,7 @@ import getData from '../loaders/jsonLoader';
 import { debounce } from 'lodash';
 import { interpolateViridis } from 'd3';
 import { scaleQuantize } from 'd3-scale';
+import * as d3 from 'd3';
 
 const StyledTooltip = React.memo(({ x, y, dataPoint, svgWidth, svgHeight }) => {
   // Calculate the tooltip position and dimensions
@@ -20,7 +21,7 @@ const StyledTooltip = React.memo(({ x, y, dataPoint, svgWidth, svgHeight }) => {
   if (tooltipY < 0) tooltipY = y + 20;
 
   return (
-    <g>
+    <g  id="violin-tooltip">
       <rect
         x={tooltipX}
         y={tooltipY}
@@ -113,7 +114,9 @@ function Scatter({ w, h }) {
       </g>
     );
   };
-
+  const handleMouseOut = () => {
+    d3.select('#violin-tooltip').style('visibility', 'hidden');
+  };
   const circles = data.map((d, i) => (
     <animated.circle
       key={i}
@@ -127,8 +130,8 @@ function Scatter({ w, h }) {
           x: xScale(d.void_fraction),
           y: yScale(d.surface_area_m2cm3),
         });
-        const debouncedSetHovered = debounce(setHovered, 100);
-        debouncedSetHovered(d);
+        //const debouncedSetHovered = debounce(setHovered, 100);
+        //debouncedSetHovered(d);
       }}
       onMouseLeave={() => {
         setHovered(null);
@@ -160,7 +163,7 @@ function Scatter({ w, h }) {
 
         {ColorLegend()}
 
-        {hovered && <StyledTooltip x={tooltipPos.x} y={tooltipPos.y} dataPoint={hovered} svgWidth={w} svgHeight={h} />}
+        {hovered && <StyledTooltip onMouseOut={handleMouseOut} x={tooltipPos.x} y={tooltipPos.y} dataPoint={hovered} svgWidth={w} svgHeight={h} />}
       </svg>
 
       <div style={{ textAlign: 'center' }}>

@@ -12,7 +12,7 @@ function createData(name, void_fraction, surface_area_m2cm3, surface_area_m2g, p
 
 function getData() {
   const data = [];
-  const numberOfFiles = 16;
+  const numberOfFiles = 30 ;
   for (let i = 0; i < numberOfFiles; i++) {
     const item = require(`./../json_data/hMOF-${i}.json`);
     data.push(

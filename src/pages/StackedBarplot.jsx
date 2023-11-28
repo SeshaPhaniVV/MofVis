@@ -42,7 +42,7 @@ const StackedBarplot = ({ width, height, structuresData }) => {
   const stackSeries = d3.stack().keys(allSubgroups).order(d3.stackOrderNone);
   const series = stackSeries(data);
 
-  const max = 200; // todo
+  const max = 200; 
   const yScale = useMemo(() => {
     return d3
       .scaleLinear()
