@@ -1,37 +1,12 @@
-import React, { useState } from 'react';
-import { useSpring, animated } from 'react-spring';
-import { scaleLinear } from 'd3-scale';
-import { extent } from 'd3-array';
-import AxisLeft from './AxisLeft';
-import AxisBottom from './AxisBottom';
+import React, { useState } from "react";
+import { useSpring, animated } from "react-spring";
+import { scaleLinear,scaleSequential } from "d3-scale";
+import { extent } from "d3-array";
+import AxisLeft from "./AxisLeft";
+import AxisBottom from "./AxisBottom";
+import getData from "../loaders/jsonLoader";
+import * as d3 from 'd3';
 import { debounce } from 'lodash';
-
-function createData(name, void_fraction, surface_area_m2cm3, surface_area_m2g, pld, lcd) {
-  return {
-    name,
-    void_fraction,
-    surface_area_m2cm3,
-    surface_area_m2g,
-    pld,
-    lcd,
-  };
-}
-
-function getData() {
-  const numberOfFiles = 16;
-
-  return Array.from({ length: numberOfFiles }, (_, index) => {
-    const customData = require(`./../json_data/hMOF-${index}.json`);
-    return createData(
-      customData.name,
-      customData.void_fraction,
-      customData.surface_area_m2cm3,
-      customData.surface_area_m2g,
-      customData.pld,
-      customData.lcd,
-    );
-  });
-}
 
 const Tooltip = React.memo(({ x, y, name }) => (
   <g>
@@ -47,7 +22,7 @@ function Scatter() {
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
   const w = 800,
-    h = 200,
+    h = 350,
     margin = {
       top: 10,
       bottom: 20,
