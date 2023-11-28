@@ -12,7 +12,7 @@ const VerticalViolinShape = ({
   const binBuilder = d3
     .bin()
     .domain([min, max])
-    .thresholds(yScale.ticks(binNumber))
+    .thresholds(yScale.ticks(binNumber/2))
     .value((d) => d);
   const bins = binBuilder(data);
 
@@ -37,7 +37,7 @@ const VerticalViolinShape = ({
       d={areaPath || undefined}
       opacity={1}
       stroke="black"
-      fill="#0845a6"
+      fill="#f03b20"
       fillOpacity={0.6}
       strokeWidth={1}
     />
