@@ -6,8 +6,7 @@ import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import axios from 'axios';
-import getData from '../loaders/jsonLoader';
-import  StackedBarplot  from "./StackedBarplot";
+import StackedBarplot from './StackedBarplot';
 import Violin from './Violin';
 import { PDBLoader } from 'three/addons/loaders/PDBLoader.js';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -35,13 +34,42 @@ const Home = () => {
   const [selectedMof, setSelectedMof] = React.useState('hMOF-0');
   const fileInputRef = useRef(null);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [structures, 
-    setStructures] = React.useState({});
+  const [structures, setStructures] = React.useState({});
+  const graph1Ref = useRef(null);
+  const graph2Ref = useRef(null);
+  const graph3Ref = useRef(null);
+  const [graph1Size, setGraph1Size] = React.useState({ width: 0, height: 0 });
+  const [graph2Size, setGraph2Size] = React.useState({ width: 0, height: 0 });
+  const [graph3Size, setGraph3Size] = React.useState({ width: 0, height: 0 });
 
   const handleButtonClick = (event) => {
     event.preventDefault();
     fileInputRef.current.click();
   };
+
+  const updateDimensions = (ref, setSize) => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      const height = rect.width * (9 / 16);
+      setSize({ width: rect.width, height: height - 80 });
+    }
+  };
+
+  useEffect(() => {
+    const updateWidthsAndHeights = () => {
+      updateDimensions(graph1Ref, setGraph1Size);
+      updateDimensions(graph2Ref, setGraph2Size);
+      updateDimensions(graph3Ref, setGraph3Size);
+    };
+
+    updateWidthsAndHeights();
+
+    window.addEventListener('resize', updateWidthsAndHeights);
+
+    return () => {
+      window.removeEventListener('resize', updateWidthsAndHeights);
+    };
+  }, []);
 
   useEffect(() => {
     const loader = new PDBLoader();
@@ -113,7 +141,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="container">
+      <div className="container" style={{ height: '100vh', padding: 0 }}>
         <div className="row">
           <div className="col-md-5">
             <div className="card-body">
@@ -147,20 +175,22 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-4">
+        <div className="row mt-10">
+          <div ref={graph2Ref} className="col-md-4">
             <div className="card-body">
-            <StackedBarplot structuresData={structures} width={600} height={400} />
+              {graph2Size.width > 0 && <Scatter w={graph2Size.width} h={graph2Size.height} />}
             </div>
           </div>
-          <div className="col-md-8">
+          <div ref={graph1Ref} className="col-md-4">
             <div className="card-body">
-              <Scatter />
+              {graph1Size.width > 0 && (
+                <StackedBarplot structuresData={structures} width={graph1Size.width} height={graph1Size.height} />
+              )}
             </div>
           </div>
-          <div className="col-md-8">
+          <div ref={graph3Ref} className="col-md-4">
             <div className="card-body">
-              <Violin width={600} height={400} />
+              {graph2Size.width > 0 && <Violin width={graph3Size.width} height={graph3Size.height} />}
             </div>
           </div>
         </div>

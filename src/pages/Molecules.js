@@ -71,11 +71,13 @@ const Molecules = ({ selectedMof }) => {
     scene.add(root);
 
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(825, 500);
+    const w = containerRef.current.offsetWidth - 50;
+    renderer.setSize(w, w * (9 / 16));
+    document.getElementById('container').appendChild(renderer.domElement);
     document.getElementById('container').appendChild(renderer.domElement);
 
     labelRenderer = new CSS2DRenderer();
-    labelRenderer.setSize(825, 500);
+    renderer.setSize(w, w * (9 / 16));
     labelRenderer.domElement.style.position = 'absolute';
     labelRenderer.domElement.style.top = '0px';
     labelRenderer.domElement.style.pointerEvents = 'none';
