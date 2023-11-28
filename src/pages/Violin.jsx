@@ -34,7 +34,6 @@ const Violin = ({ width, height }) => {
   }, [xScale, yScale, boundsHeight]);
 
   const handleMouseOver = (event, data) => {
-    console.log({ data });
     const tooltipDiv = d3.select('#violin-tooltip');
     tooltipDiv.transition().duration(200).style('visibility', 'visible');
     tooltipDiv

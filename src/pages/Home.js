@@ -153,7 +153,7 @@ const Home = () => {
                   variant="contained"
                   color="success"
                   startIcon={<CloudUploadIcon />}
-                  style={{ marginLeft: '100px' }}
+                  style={{ marginLeft: 'auto' }}
                   onClick={handleButtonClick}
                 >
                   Upload

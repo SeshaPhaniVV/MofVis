@@ -77,7 +77,7 @@ const Molecules = ({ selectedMof }) => {
     document.getElementById('container').appendChild(renderer.domElement);
 
     labelRenderer = new CSS2DRenderer();
-    renderer.setSize(w, w * (9 / 16));
+    labelRenderer.setSize(w, w * (9 / 16));
     labelRenderer.domElement.style.position = 'absolute';
     labelRenderer.domElement.style.top = '0px';
     labelRenderer.domElement.style.pointerEvents = 'none';
@@ -205,7 +205,7 @@ const Molecules = ({ selectedMof }) => {
           style={{
             position: 'absolute',
             top: '17px',
-            right: '170px',
+            right: '80px',
             zIndex: 1000, // High z-index
             padding: '10px',
             pointerEvents: 'none',

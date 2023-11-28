@@ -229,11 +229,11 @@ function EnhancedTableToolbar(props) {
         }}
         sx={{ mr: 15 }} // Adjust spacing as needed
       />
-      <Tooltip title="Filter Feature Available Soon">
+      {/* <Tooltip title="Filter Feature Available Soon">
         <IconButton>
           <FilterListIcon />
         </IconButton>
-      </Tooltip>
+      </Tooltip> */}
     </Toolbar>
   );
 }

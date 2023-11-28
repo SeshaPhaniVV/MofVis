@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import * as d3 from 'd3';
 
 const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
@@ -13,6 +13,8 @@ function createData(name, carbon, hydrogen, oxygen, nitrogen) {
 }
 const StackedBarplot = ({ width, height, structuresData }) => {
   const axesRef = useRef(null);
+  const [tooltip, setTooltip] = useState({ visible: false, content: {} });
+
   const data = Object.keys(structuresData)
     .map((key) => {
       const { C, H, O, N } = structuresData[key];
@@ -30,7 +32,7 @@ const StackedBarplot = ({ width, height, structuresData }) => {
       }
     })
     .filter((entry) => entry !== null);
-  console.log(data);
+
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
@@ -52,10 +54,24 @@ const StackedBarplot = ({ width, height, structuresData }) => {
     return d3.scaleBand().domain(allGroups).range([0, boundsWidth]).padding(0.1);
   }, [data, width]);
 
-  // var colorScale = d3
-  //   .scaleOrdinal()
-  //   .domain(allGroups)
-  //   .range(["#4b4c4d", "#0fd408", "#0558e8", "#f70505", "#0562f7"]);
+  const yAxisLabel = 'Number of Structures';
+
+  const handleMouseOver = (event, d) => {
+    console.log({ d });
+    const content = Object.entries(d.data)
+      .filter(([key, value]) => value > 0 && key !== 'name')
+      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { name: d.data.name });
+
+    setTooltip({ visible: true, content, x: event.clientX, y: event.clientY });
+  };
+
+  const handleMouseMove = (event) => {
+    setTooltip((prev) => ({ ...prev, x: event.clientX, y: event.clientY }));
+  };
+
+  const handleMouseOut = () => {
+    setTooltip({ visible: false, content: {} });
+  };
 
   const colorScale = d3
     .scaleOrdinal()
@@ -77,6 +93,7 @@ const StackedBarplot = ({ width, height, structuresData }) => {
     const yAxisGenerator = d3.axisLeft(yScale);
     svgElement.append('g').call(yAxisGenerator);
   }, [xScale, yScale, boundsHeight]);
+
   const rectangles = series.map((subgroup, i) => {
     return (
       <g key={i}>
@@ -86,6 +103,9 @@ const StackedBarplot = ({ width, height, structuresData }) => {
               key={j}
               x={xScale(group.data.name)}
               y={yScale(group[1])}
+              onMouseOver={(event) => handleMouseOver(event, group)}
+              onMouseMove={handleMouseMove}
+              onMouseOut={handleMouseOut}
               height={yScale(group[0]) - yScale(group[1])}
               width={xScale.bandwidth()}
               fill={colorScale(subgroup.key)}
@@ -97,6 +117,7 @@ const StackedBarplot = ({ width, height, structuresData }) => {
       </g>
     );
   });
+
   const Legend = () => {
     return (
       <g transform={`translate(${MARGIN.left + 20}, ${MARGIN.top})`}>
@@ -117,6 +138,13 @@ const StackedBarplot = ({ width, height, structuresData }) => {
       <svg width={width} height={height}>
         <g width={boundsWidth} height={boundsHeight} transform={`translate(${[MARGIN.left, MARGIN.top].join(',')})`}>
           {rectangles}
+          <text
+            transform={`translate(${-MARGIN.left + 20}, ${boundsHeight / 2}) rotate(-90)`} // Rotate and position along y-axis
+            textAnchor="middle"
+            alignmentBaseline="baseline" // Adjust the alignment if necessary
+          >
+            {yAxisLabel}
+          </text>
         </g>
         <g
           width={boundsWidth}
@@ -126,6 +154,37 @@ const StackedBarplot = ({ width, height, structuresData }) => {
         />
         {Legend()}
       </svg>
+      {tooltip.visible && (
+        <div
+          style={{
+            position: 'absolute',
+            left: `${tooltip.x + 10}px`,
+            top: `${tooltip.y + 10}px`,
+            backgroundColor: 'rgba(97, 97, 97, 0.9)',
+            color: 'white',
+            padding: '8px',
+            borderRadius: '4px',
+            boxShadow: '0px 2px 8px rgba(0,0,0,0.2)',
+            pointerEvents: 'none',
+            zIndex: 100,
+            fontSize: '0.875rem',
+            lineHeight: '1.4em',
+            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+            maxWidth: '220px',
+            wordWrap: 'break-word',
+            textAlign: 'left',
+          }}
+        >
+          <div>
+            <strong>{tooltip.content.name}</strong>
+            {Object.entries(tooltip.content)
+              .filter(([key]) => key !== 'name')
+              .map(([key, value]) => (
+                <div key={key}>{`${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`}</div>
+              ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
