@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import Molecules from './Molecules';
 import Scatter from './Scatter';
-import Histogram from './Histogram';
 import TableComponent from './TableComponent';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import axios from 'axios';
 import getData from '../loaders/jsonLoader';
-import { data } from './data';
+import  StackedBarplot  from "./StackedBarplot";
 import Violin from './Violin';
 import { PDBLoader } from 'three/addons/loaders/PDBLoader.js';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -36,7 +35,8 @@ const Home = () => {
   const [selectedMof, setSelectedMof] = React.useState('hMOF-0');
   const fileInputRef = useRef(null);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [structures, setStructures] = React.useState({});
+  const [structures, 
+    setStructures] = React.useState({});
 
   const handleButtonClick = (event) => {
     event.preventDefault();
@@ -72,7 +72,7 @@ const Home = () => {
       for (let i = 0; i <= numberOfFiles; i++) {
         const customData = require(`./../json_data/hMOF-${i}.json`);
         tempStructures[customData.name] = await getStructureDetailsForMof(customData.name);
-        console.log({ customData });
+        //console.log({ customData });
       }
 
       setStructures(tempStructures);
@@ -150,7 +150,7 @@ const Home = () => {
         <div className="row">
           <div className="col-md-4">
             <div className="card-body">
-              <Histogram structuresData={structures} />
+            <StackedBarplot structuresData={structures} width={600} height={400} />
             </div>
           </div>
           <div className="col-md-8">
