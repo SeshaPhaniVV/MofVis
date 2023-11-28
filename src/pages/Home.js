@@ -54,11 +54,10 @@ const Home = () => {
         loader.load(url, (pdb) => {
           const { atoms } = pdb.json;
           let res = {};
-          console.log({ atoms });
 
-          for (const [, , , , atom] of atoms) {
-            if (res[atom]) res[atom]++;
-            else res[atom] = 1;
+          for (const [, , , colors, atom] of atoms) {
+            if (res[atom]) res[atom].count = res[atom].count + 1;
+            else res[atom] = { count: 1, color: colors };
           }
 
           resolve(res);
@@ -161,7 +160,7 @@ const Home = () => {
           </div>
           <div className="col-md-8">
             <div className="card-body">
-              <Violin width={600} height={400}/>
+              <Violin width={600} height={400} />
             </div>
           </div>
         </div>
