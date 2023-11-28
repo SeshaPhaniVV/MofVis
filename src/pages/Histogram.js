@@ -7,10 +7,10 @@ const BUCKET_PADDING = 4;
 
 const COLORS = ['#3181CC', '#DD0B17'];
 
-function createData(name, value) {
+function createData(name, values) {
   return {
     name,
-    value,
+    values,
   };
 }
 
