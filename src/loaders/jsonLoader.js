@@ -1,13 +1,3 @@
-<<<<<<< Updated upstream
-class jsonLoader {
-  load(path) {
-    const customData = require(path);
-    return customData;
-  }
-}
-
-export { jsonLoader };
-=======
 
 function createData(name, void_fraction, surface_area_m2cm3, surface_area_m2g, pld, lcd) {
     return {
@@ -128,4 +118,3 @@ function getData() {
     }
 
 export default getData;
->>>>>>> Stashed changes
