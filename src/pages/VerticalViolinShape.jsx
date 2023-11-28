@@ -37,7 +37,7 @@ const VerticalViolinShape = ({
       d={areaPath || undefined}
       opacity={1}
       stroke="black"
-      fill="#cb1dd1"
+      fill="#0845a6"
       fillOpacity={0.6}
       strokeWidth={1}
     />

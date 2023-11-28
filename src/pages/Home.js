@@ -159,6 +159,11 @@ const Home = () => {
               <Scatter />
             </div>
           </div>
+          <div className="col-md-8">
+            <div className="card-body">
+              <Violin width={600} height={400}/>
+            </div>
+          </div>
         </div>
       </div>
     </>

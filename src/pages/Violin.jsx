@@ -6,7 +6,6 @@ const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 
 const Violin = ({ width, height }) => {
   const data = getDataViolin();
-  debugger;
   const axesRef = useRef(null);
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;

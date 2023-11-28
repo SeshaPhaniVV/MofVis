@@ -10,8 +10,8 @@ function createDataViolin(name, values) {
     const numberOfFiles = 16;
     for (let i = 0; i < numberOfFiles; i++) {
       const item = require(`./../json_data/hMOF-${i}.json`);
-      data.push(createDataViolin('pld', item.pld));
-      data.push(createDataViolin('lcd', item.lcd));
+      data.push(createDataViolin('Pore Limiting Diameter', item.pld));
+      data.push(createDataViolin('Largest Cavity Diameter', item.lcd));
     }
     return data;
   }

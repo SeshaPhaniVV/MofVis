@@ -7,11 +7,14 @@ import AxisBottom from "./AxisBottom";
 import getData from "../loaders/jsonLoader";
 import * as d3 from 'd3';
 import { debounce } from 'lodash';
+import { interpolateViridis } from "d3";
 
-const Tooltip = React.memo(({ x, y, name }) => (
+const Tooltip = React.memo(({ x, y, dataPoint }) => (
   <g>
     <text x={x} y={y} textAnchor="middle">
-      {name}
+      {dataPoint.name}
+      <tspan x={x} dy="1.2em">Void Fraction: {dataPoint.void_fraction}</tspan>
+      <tspan x={x} dy="1.2em">Surface Area: {dataPoint.surface_area_m2cm3}</tspan>
     </text>
   </g>
 ));
@@ -41,27 +44,24 @@ function Scatter() {
     .domain(extent(data, (d) => d.surface_area_m2cm3))
     .range([height, 0]);
 
-  let colorScale = scaleLinear().domain(lcdExtent).range([0, 360]);
+  //let colorScale = scaleLinear().domain(lcdExtent).range([0, 360]);
   const rScale = scaleLinear()
     .domain(extent(data, (d) => d.pld))
     .range([5, 10]);
-  const props = useSpring({
-    from: { fill: getHslColor(colorScale(3)) },
-    to: { fill: getHslColor(colorScale(15)) },
-  });
-
+    const colorScale = scaleSequential(interpolateViridis).domain(lcdExtent);
   const ColorLegend = () => {
     const legendWidth = 8;
     const legendHeight = 320;
 
-    let colorScale = scaleLinear().domain(lcdExtent).range([0, 360]);
+  //let colorScale = scaleLinear().domain(lcdExtent).range([0, 360]);
+  const colorScale = scaleSequential(interpolateViridis).domain(lcdExtent);
 
     return (
       <g style={{ zIndex: 10 }} transform={`translate(${width + margin.left + 12},${margin.top})`}>
         <defs>
           <linearGradient id="legendGradient" x1="0%" y1="100%" x2="0%" y2="0%">
             {colorScale.ticks(10).map((tick, i) => (
-              <stop key={i} offset={`${(i / 9) * 100}%`} stopColor={getHslColor(colorScale(tick))} />
+              <stop key={i} offset={`${(i / 9) * 100}%`} stopColor={colorScale(tick)} />
             ))}
           </linearGradient>
         </defs>
@@ -79,15 +79,15 @@ function Scatter() {
       r={rScale(d.pld)}
       cx={xScale(d.void_fraction)}
       cy={yScale(d.surface_area_m2cm3)}
-      style={{ fill: getHslColor(colorScale(d.lcd)) }}
+      style={{ fill: colorScale(d.lcd) }}
       onMouseEnter={() => {
-        setHovered(d.name);
+        setHovered(d);
         setTooltipPos({
           x: xScale(d.void_fraction),
           y: yScale(d.surface_area_m2cm3),
         });
         const debouncedSetHovered = debounce(setHovered, 100);
-        debouncedSetHovered(d.name);
+        debouncedSetHovered(d);
       }}
       onMouseLeave={() => {
         setHovered(null);
@@ -97,7 +97,6 @@ function Scatter() {
 
   return (
     <div className="textAlign">
-      <h6> Scatter Plot </h6>
       <svg width={w} height={h}>
         <g
           transform={`translate(${margin.left + 10},${margin.top - 30})translate(0, ${margin.bottom + 10})
@@ -106,11 +105,11 @@ function Scatter() {
           <AxisLeft yScale={yScale} width={width} />
           <AxisBottom xScale={xScale} height={height} />
           {circles}
-          {hovered && <Tooltip x={tooltipPos.x} y={tooltipPos.y} name={hovered} />}
+          {hovered && <Tooltip x={tooltipPos.x} y={tooltipPos.y} dataPoint={hovered} />}
         </g>
         <text
           x={-margin.left + 80}
-          y={height - 110}
+          y={height - 185}
           transform={`rotate(-90, ${margin.left}, ${height / 2})`}
           textAnchor="middle"
         >
