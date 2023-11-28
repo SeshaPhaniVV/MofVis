@@ -1,9 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import * as d3 from 'd3';
+import { scaleLinear, scaleSequential } from 'd3-scale';
+import { extent } from 'd3-array';
 
 const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
-function createData(name, carbon, hydrogen, oxygen, nitrogen) {
+function createData(name, carbon, hydrogen, oxygen, nitrogen, isothermsData) {
   return {
+    lcd: isothermsData[name].lcd,
     name,
     carbon,
     hydrogen,
@@ -11,7 +14,7 @@ function createData(name, carbon, hydrogen, oxygen, nitrogen) {
     nitrogen,
   };
 }
-const StackedBarplot = ({ width, height, structuresData }) => {
+const StackedBarplot = ({ width, height, structuresData, isothermsData }) => {
   const axesRef = useRef(null);
   const [tooltip, setTooltip] = useState({ visible: false, content: {} });
 
@@ -26,7 +29,7 @@ const StackedBarplot = ({ width, height, structuresData }) => {
       const nitrogenCount = N ? N.count : 0;
 
       if (!(carbonCount == 0 && hydrogenCount == 0 && oxygenCount == 0 && nitrogenCount == 0)) {
-        return createData(key, carbonCount, hydrogenCount, oxygenCount, nitrogenCount);
+        return createData(key, carbonCount, hydrogenCount, oxygenCount, nitrogenCount, isothermsData);
       } else {
         return null;
       }
@@ -36,7 +39,7 @@ const StackedBarplot = ({ width, height, structuresData }) => {
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
-  const allGroups = data.map((d) => String(d.name));
+  const allGroups = Array.from(new Set(data.map((d) => d.lcd))).sort(d3.ascending);
   const allSubgroups = ['carbon', 'hydrogen', 'oxygen', 'nitrogen'];
 
   const stackSeries = d3.stack().keys(allSubgroups).order(d3.stackOrderNone);
@@ -50,14 +53,20 @@ const StackedBarplot = ({ width, height, structuresData }) => {
       .range([boundsHeight, 0]);
   }, [data, height]);
 
+  const xScale1 = useMemo(() => {
+    return d3.scaleBand().domain(allGroups).range([0, boundsWidth]).padding(0.2);
+  }, [boundsWidth, allGroups]);
+
   const xScale = useMemo(() => {
-    return d3.scaleBand().domain(allGroups).range([0, boundsWidth]).padding(0.1);
-  }, [data, width]);
+    return d3
+      .scaleLinear()
+      .domain(d3.extent(data, (d) => d.lcd))
+      .range([0, boundsWidth]);
+  }, [data, boundsWidth]);
 
   const yAxisLabel = 'Number of Structures';
 
   const handleMouseOver = (event, d) => {
-    console.log({ d });
     const content = Object.entries(d.data)
       .filter(([key, value]) => value > 0 && key !== 'name')
       .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), { name: d.data.name });
@@ -95,22 +104,23 @@ const StackedBarplot = ({ width, height, structuresData }) => {
   }, [xScale, yScale, boundsHeight]);
 
   const rectangles = series.map((subgroup, i) => {
+    console.log({ subgroup });
     return (
       <g key={i}>
         {subgroup.map((group, j) => {
+          const barHeight = yScale(group[0]) - yScale(group[1]);
           return (
             <rect
               key={j}
-              x={xScale(group.data.name)}
+              x={xScale(group.data.lcd)}
               y={yScale(group[1])}
               onMouseOver={(event) => handleMouseOver(event, group)}
               onMouseMove={handleMouseMove}
               onMouseOut={handleMouseOut}
               height={yScale(group[0]) - yScale(group[1])}
-              width={xScale.bandwidth()}
+              width={25}
               fill={colorScale(subgroup.key)}
               opacity={0.9}
-              title={`${group.data.name}\nCarbon: ${group.data.carbon}\nHydrogen: ${group.data.hydrogen}\nOxygen: ${group.data.oxygen}\nNitrogen: ${group.data.nitrogen}`}
             ></rect>
           );
         })}
@@ -119,12 +129,15 @@ const StackedBarplot = ({ width, height, structuresData }) => {
   });
 
   const Legend = () => {
+    const legendPosY = height - MARGIN.bottom - 235; // Adjust this if necessary
+    const legendSpacing = 100; // Adjust the spacing between legend items as needed
+
     return (
-      <g transform={`translate(${MARGIN.left + 20}, ${MARGIN.top})`}>
+      <g transform={`translate(${MARGIN.left}, ${legendPosY})`}>
         {allSubgroups.map((subgroup, i) => (
-          <g transform={`translate(0, ${i * 20})`} key={subgroup}>
-            <rect width={10} height={10} fill={colorScale(subgroup)} />
-            <text x={15} y={10}>
+          <g key={subgroup} transform={`translate(${i * legendSpacing}, 0)`}>
+            <rect y={10} width={10} height={10} fill={colorScale(subgroup)} />
+            <text x={15} y={10} alignmentBaseline="hanging" textAnchor="start">
               {subgroup}
             </text>
           </g>
@@ -144,6 +157,13 @@ const StackedBarplot = ({ width, height, structuresData }) => {
             alignmentBaseline="baseline" // Adjust the alignment if necessary
           >
             {yAxisLabel}
+          </text>
+          <text
+            transform={`translate(${MARGIN.left + 200}, ${MARGIN.top + 200})`} // Rotate and position along y-axis
+            textAnchor="middle"
+            alignmentBaseline="baseline" // Adjust the alignment if necessary
+          >
+            LCD
           </text>
         </g>
         <g

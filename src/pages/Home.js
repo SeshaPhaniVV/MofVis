@@ -30,6 +30,36 @@ const map = {
   'hMOF-15': 'cubane',
 };
 
+function createData(name, void_fraction, surface_area_m2cm3, surface_area_m2g, pld, lcd) {
+  return {
+    name,
+    void_fraction,
+    surface_area_m2cm3,
+    surface_area_m2g,
+    pld,
+    lcd,
+  };
+}
+
+const customData = [];
+
+for (let i = 0; i <= 15; i++) {
+  customData[i] = require(`./../json_data/hMOF-${i}.json`);
+}
+
+let isothermsData = {};
+
+for (let i = 0; i < customData.length; i++) {
+  isothermsData[customData[i].name] = createData(
+    customData[i].name,
+    customData[i].void_fraction,
+    customData[i].surface_area_m2cm3,
+    customData[i].surface_area_m2g,
+    customData[i].pld,
+    customData[i].lcd,
+  );
+}
+
 const Home = () => {
   const [selectedMof, setSelectedMof] = React.useState('hMOF-0');
   const fileInputRef = useRef(null);
@@ -184,7 +214,12 @@ const Home = () => {
           <div ref={graph1Ref} className="col-md-4">
             <div className="card-body">
               {graph1Size.width > 0 && (
-                <StackedBarplot structuresData={structures} width={graph1Size.width} height={graph1Size.height} />
+                <StackedBarplot
+                  isothermsData={isothermsData}
+                  structuresData={structures}
+                  width={graph1Size.width}
+                  height={graph1Size.height}
+                />
               )}
             </div>
           </div>

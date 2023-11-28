@@ -101,7 +101,7 @@ function Scatter({ w, h }) {
       <g transform={`translate(${width + margin.left + 12},${margin.top})`}>
         <defs>
           <linearGradient id="legendGradient" x1="0%" y1="100%" x2="0%" y2="0%">
-            {legendColorScale.ticks(10).map((tick, i) => (
+            {legendColorScale.ticks(5).map((tick, i) => (
               <stop key={i} offset={`${(i / 9) * 100}%`} stopColor={colorScale(tick)} />
             ))}
           </linearGradient>
