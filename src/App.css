@@ -15,8 +15,8 @@
 
 .textAlign {
   text-align: center !important;
-  display: 'flex'
- }
+  display: 'flex';
+}
 
 .App-header {
   background-color: #282c34;
@@ -52,4 +52,13 @@
   margin: 10px;
   width: 100% !important;
   max-width: none;
+}
+
+.play-pause-button {
+  position: absolute;
+  top: 20px; /* Adjust as needed */
+  left: 20px; /* Adjust as needed */
+  opacity: 0.8; /* Adjust as needed */
+  z-index: 10;
+  /* Additional styling for the button */
 }

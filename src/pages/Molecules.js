@@ -3,12 +3,8 @@ import * as THREE from 'three';
 import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 import { PDBLoader } from 'three/addons/loaders/PDBLoader.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
-import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 const Molecules = ({ selectedMof }) => {
-  console.log({ selectedMof });
   const map = {
     'hMOF-0': 'caffeine',
     'hMOF-1': 'cocaine',
@@ -23,22 +19,17 @@ const Molecules = ({ selectedMof }) => {
   };
 
   const fileName = map[selectedMof] ? `${map[selectedMof]}.pdb` : `${selectedMof}.pdb`;
-  console.log({ fileName });
 
   const [molecule, setMolecule] = useState(fileName);
-  const [file, setFile] = useState(null);
-  const [isPaused, setIsPaused] = useState(false);
-  const [outputMessage, setOutputMessage] = useState('');
+  const [isAnimating, setIsAnimating] = useState(true);
   const containerRef = useRef(null);
   const [scene, setScene] = useState(new THREE.Scene());
   const [root, setRoot] = useState(new THREE.Group());
   const [renderer, setRenderer] = useState(new THREE.WebGLRenderer({ alpha: true }));
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+  const toggleAnimation = () => {
+    setIsAnimating(!isAnimating);
   };
-
-  const [fileContent, setFileContent] = useState('');
 
   let camera, labelRenderer;
   let controls;
@@ -47,14 +38,14 @@ const Molecules = ({ selectedMof }) => {
   const offset = new THREE.Vector3();
 
   useEffect(() => {
-    const fileName = map[selectedMof] ? `${map[selectedMof]}.pdb` : `${selectedMof}.pdb`;
-    setMolecule(fileName);
+    const fileName = map[selectedMof] ? `${map[selectedMof]}.pdb` : selectedMof;
+    loadMolecule(fileName);
   }, [selectedMof]);
 
   useEffect(() => {
     init();
     animate();
-  });
+  }, []);
 
   function init() {
     scene.background = new THREE.Color(0x050505);
@@ -89,12 +80,6 @@ const Molecules = ({ selectedMof }) => {
     controls.maxDistance = 2000;
 
     loadMolecule(molecule);
-
-    // window.addEventListener('resize', onWindowResize);
-
-    // const gui = new GUI();
-    // gui.add(params, 'molecule', MOLECULES).onChange(loadMolecule);
-    // gui.open();
   }
 
   function loadMolecule(model) {
@@ -183,25 +168,20 @@ const Molecules = ({ selectedMof }) => {
     });
   }
 
-  function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    labelRenderer.setSize(window.innerWidth, window.innerHeight);
-
-    render();
-  }
-
   function animate() {
+    var icon = document.getElementById('playPauseIcon');
+    const isAnimating = icon && icon.classList.contains('fa-pause');
+
     requestAnimationFrame(animate);
     controls.update();
 
-    if (!isPaused) {
+    if (isAnimating) {
       const time = Date.now() * 0.0004;
+
       root.rotation.x = time;
       root.rotation.y = time * 0.7;
     }
+
     render();
   }
 
@@ -212,22 +192,31 @@ const Molecules = ({ selectedMof }) => {
 
   return (
     <>
-      <div id="container" style={{ position: 'relative', width: '100%' }}>
+      <div ref={containerRef} id="container" style={{ position: 'relative', width: '100%' }}>
         <button
           style={{
             position: 'absolute',
-            top: '10px',
-            left: '10px',
+            top: '17px',
+            right: '170px',
             zIndex: 1000, // High z-index
             padding: '10px',
+            pointerEvents: 'none',
             border: 'none',
+            opacity: 0.8,
             borderRadius: '5px',
             color: '#fff', // Text color
             backgroundColor: '#007bff', // Button color
           }}
-          // onClick={togglePause}
         >
           {selectedMof}
+        </button>
+        <button
+          onClick={toggleAnimation}
+          id="playPauseButton"
+          className="btn btn-primary play-pause-button"
+          style={{ opacity: 0.8 }}
+        >
+          {isAnimating ? <i id="playPauseIcon" className="fas fa-pause"></i> : <i className="fas fa-play"></i>}
         </button>
       </div>
     </>

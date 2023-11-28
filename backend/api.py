@@ -73,6 +73,10 @@ from gemmi import cif, read_structure, CoorFormat
 app = Flask(__name__)
 CORS(app)
 
+UPLOAD_FOLDER = '../public/models/'
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 @app.route("/")
 def hello_world():
@@ -92,6 +96,18 @@ def upload_and_convert():
         if file.filename == '':
             return jsonify({'error': 'No selected file'})
 
+        if file.filename.endswith('.pdb'):
+            filename = file.filename
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            print(filename, file_path)
+
+            if os.path.exists(file_path):
+                file.save(file_path)
+                return jsonify({'success': f'File converted to {file_path}'}), 200
+
+            file.save(file_path)
+            return jsonify({'success': f'File converted to {file_path}'}), 200
+
         # Check if the file is of the desired format (e.g., .cif)
         if not file.filename.endswith('.cif'):
             return jsonify({'error': 'Invalid file format. Only .cif files are allowed'})
@@ -106,7 +122,6 @@ def upload_and_convert():
             output_dir = os.path.join(current_dir, '..', 'public', 'models')
             output_file_name = os.path.basename(
                 file.filename).replace('.cif', '.pdb')
-            print(output_dir, output_file_name, output_file_path)
             output_file_path = os.path.join(output_dir, output_file_name)
             pymol.cmd.save(output_file_path, selection='myprotein')
 

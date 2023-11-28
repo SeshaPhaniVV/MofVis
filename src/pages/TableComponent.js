@@ -1,6 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,19 +10,13 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -57,123 +50,26 @@ function createData(name, void_fraction, surface_area_m2cm3, surface_area_m2g, p
   };
 }
 
-const customData0 = require('./../json_data/hMOF-0.json');
-var customData1 = require('./../json_data/hMOF-1.json');
-var customData2 = require('./../json_data/hMOF-2.json');
-var customData3 = require('./../json_data/hMOF-3.json');
-var customData4 = require('./../json_data/hMOF-4.json');
-var customData5 = require('./../json_data/hMOF-5.json');
-var customData6 = require('./../json_data/hMOF-6.json');
-var customData7 = require('./../json_data/hMOF-7.json');
-var customData8 = require('./../json_data/hMOF-8.json');
-var customData9 = require('./../json_data/hMOF-9.json');
-var customData10 = require('./../json_data/hMOF-10.json');
-var customData11 = require('./../json_data/hMOF-11.json');
-var customData12 = require('./../json_data/hMOF-12.json');
+const customData = [];
 
-
+for (let i = 0; i <= 12; i++) {
+  customData[i] = require(`./../json_data/hMOF-${i}.json`);
+}
 
 let originalRows = [];
-originalRows.push(
-  createData(
-    customData0.name,
-    customData0.void_fraction,
-    customData0.surface_area_m2cm3,
-    customData0.surface_area_m2g,
-    customData0.pld,
-    customData0.lcd,
-  ),
-);
-originalRows.push(
-  createData(
-    customData1.name,
-    customData1.void_fraction,
-    customData1.surface_area_m2cm3,
-    customData1.surface_area_m2g,
-    customData1.pld,
-    customData1.lcd,
-  ),
-);
-originalRows.push(
-  createData(
-    customData2.name,
-    customData2.void_fraction,
-    customData2.surface_area_m2cm3,
-    customData2.surface_area_m2g,
-    customData2.pld,
-    customData2.lcd,
-  ),
-);
-originalRows.push(
-  createData(
-    customData3.name,
-    customData3.void_fraction,
-    customData3.surface_area_m2cm3,
-    customData3.surface_area_m2g,
-    customData3.pld,
-    customData3.lcd,
-  ),
-);
-originalRows.push(
-  createData(
-    customData4.name,
-    customData4.void_fraction,
-    customData4.surface_area_m2cm3,
-    customData4.surface_area_m2g,
-    customData4.pld,
-    customData4.lcd,
-  ),
-);
-originalRows.push(
-  createData(
-    customData5.name,
-    customData5.void_fraction,
-    customData5.surface_area_m2cm3,
-    customData5.surface_area_m2g,
-    customData5.pld,
-    customData5.lcd,
-  ),
-);
-originalRows.push(
-  createData(
-    customData6.name,
-    customData6.void_fraction,
-    customData6.surface_area_m2cm3,
-    customData6.surface_area_m2g,
-    customData6.pld,
-    customData6.lcd,
-  ),
-);
-originalRows.push(
-  createData(
-    customData7.name,
-    customData7.void_fraction,
-    customData7.surface_area_m2cm3,
-    customData7.surface_area_m2g,
-    customData7.pld,
-    customData7.lcd,
-  ),
-);
-originalRows.push(
-  createData(
-    customData8.name,
-    customData8.void_fraction,
-    customData8.surface_area_m2cm3,
-    customData8.surface_area_m2g,
-    customData8.pld,
-    customData8.lcd,
-  ),
-);
-originalRows.push(
-  createData(
-    customData9.name,
-    customData9.void_fraction,
-    customData9.surface_area_m2cm3,
-    customData9.surface_area_m2g,
-    customData9.pld,
-    customData9.lcd,
-  ),
-);
+
+for (let i = 0; i < customData.length; i++) {
+  originalRows.push(
+    createData(
+      customData[i].name,
+      customData[i].void_fraction,
+      customData[i].surface_area_m2cm3,
+      customData[i].surface_area_m2g,
+      customData[i].pld,
+      customData[i].lcd,
+    ),
+  );
+}
 
 function descendingComparator(a, b, orderBy) {
   if (!a.hasOwnProperty(orderBy) || !b.hasOwnProperty(orderBy)) {
@@ -341,15 +237,6 @@ export default function EnhancedTable({ setSelectedMof }) {
 
     const sortedData = stableSort(rows, getComparator(isAsc ? 'desc' : 'asc', property));
     setRows(sortedData);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleClick = (event, id) => {

@@ -15,38 +15,20 @@ function createData(name, values) {
 }
 
 function getData() {
-  const customData0 = require('./../json_data/hMOF-0.json');
-  const customData1 = require('./../json_data/hMOF-1.json');
-  const customData2 = require('./../json_data/hMOF-2.json');
-  const customData3 = require('./../json_data/hMOF-3.json');
-  const customData4 = require('./../json_data/hMOF-4.json');
-  const customData5 = require('./../json_data/hMOF-5.json');
-  const customData6 = require('./../json_data/hMOF-6.json');
-  const customData7 = require('./../json_data/hMOF-7.json');
-  const customData8 = require('./../json_data/hMOF-8.json');
   let data = [];
   let pld = [];
   let lcd = [];
-  pld.push(customData0.pld);
-  pld.push(customData1.pld);
-  pld.push(customData2.pld);
-  pld.push(customData3.pld);
-  pld.push(customData4.pld);
-  pld.push(customData5.pld);
-  pld.push(customData6.pld);
-  pld.push(customData7.pld);
-  pld.push(customData8.pld);
-  lcd.push(customData0.lcd);
-  lcd.push(customData1.lcd);
-  lcd.push(customData2.lcd);
-  lcd.push(customData3.lcd);
-  lcd.push(customData4.lcd);
-  lcd.push(customData5.lcd);
-  lcd.push(customData6.lcd);
-  lcd.push(customData7.lcd);
-  lcd.push(customData8.lcd);
+
+  const numberOfFiles = 15; // Adjust this number based on your actual number of files
+  for (let i = 0; i <= numberOfFiles; i++) {
+    const customData = require(`./../json_data/hMOF-${i}.json`);
+    pld.push(customData.pld);
+    lcd.push(customData.lcd);
+  }
+
   data.push(createData('pld', pld));
   data.push(createData('lcd', lcd));
+
   return data;
 }
 
@@ -85,10 +67,6 @@ const Histogram = () => {
     return d3.scaleLinear().range([boundsHeight, 0]).domain([0, max]).nice();
   }, [data, height]);
 
-  const xAxisGenerator = d3.axisBottom(xScale).tickFormat((d) => d + ' units');
-
-  const yAxisGenerator = d3.axisLeft(yScale).tickFormat((d) => d + ' items');
-
   useEffect(() => {
     const svgElement = d3.select(axesRef.current);
     svgElement.selectAll('*').remove();
@@ -100,7 +78,7 @@ const Histogram = () => {
       .call(xAxisGenerator);
 
     const yAxisGenerator = d3.axisLeft(yScale);
-    svgElement.append("g").call(yAxisGenerator);
+    svgElement.append('g').call(yAxisGenerator);
 
     svgElement
       .append('g')
@@ -114,7 +92,7 @@ const Histogram = () => {
       .style('text-anchor', 'middle')
       .text('Units');
 
-    svgElement.append("g").call(yAxisGenerator); 
+    svgElement.append('g').call(yAxisGenerator);
 
     svgElement
       .append('text')
