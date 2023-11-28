@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import * as d3 from "d3";
 import VerticalViolinShape from "./VerticalViolinShape";
-import getDataViolin from "../loaders/jsonLoader";
+import  getDataViolin from "../loaders/jsonLoader2";
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 
 const Violin = ({ width, height }) => {
@@ -12,7 +12,7 @@ const Violin = ({ width, height }) => {
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
   const { min, max, groups } = useMemo(() => {
-    const [min, max] = d3.extent(data.map((d) => d.value));
+    const [min, max] = d3.extent(data.map((d) => d.values));
     const groups = data
       .map((d) => d.name)
       .filter((x, i, a) => a.indexOf(x) == i);
@@ -45,7 +45,7 @@ const Violin = ({ width, height }) => {
   }, [xScale, yScale, boundsHeight]);
 
   const allShapes = groups.map((group, i) => {
-    const groupData = data.filter((d) => d.name === group).map((d) => d.value);
+    const groupData = data.filter((d) => d.name === group).map((d) => d.values);
     return (
       <g key={i} transform={`translate(${xScale(group)},0)`}>
         <VerticalViolinShape
@@ -74,6 +74,14 @@ const Violin = ({ width, height }) => {
           ref={axesRef}
           transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
         />
+        <text
+          x={-MARGIN.left + 80}
+          y={height - 220}
+          transform={`rotate(-90, ${MARGIN.left}, ${height / 2})`}
+          textAnchor="middle"
+        >
+          Angstroms (Å)
+        </text>
       </svg>
     </div>
   );
