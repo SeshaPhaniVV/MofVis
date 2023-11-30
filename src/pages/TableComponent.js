@@ -317,8 +317,8 @@ export default function EnhancedTable({ setSelectedMof }) {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
+    <Box sx={{ width: '100%', height: '80%', mb: 3 }}>
+      <Paper sx={{ width: '100%', height: '80%' }}>
         <EnhancedTableToolbar onCancelSearch={cancelSearch} onSearchChange={requestSearch} searched={searched} />
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>

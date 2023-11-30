@@ -29,8 +29,6 @@
   color: white;
 }
 
-
-
 .App-link {
   color: #61dafb;
 }
@@ -67,4 +65,12 @@
 
 .mt-10 {
   margin-top: 50px;
+}
+
+.mb-15 {
+  margin-bottom: 100px;
+}
+
+.table-comp {
+  margin: 10px;
 }

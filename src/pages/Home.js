@@ -12,7 +12,7 @@ import { PDBLoader } from 'three/addons/loaders/PDBLoader.js';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const map = {
-  'hMOF-0': 'caffeine',
+  'hMOF-0': 'hMOF-0',
   'hMOF-1': 'cocaine',
   'hMOF-2': 'cholesterol',
   'hMOF-3': 'diamond',
@@ -68,9 +68,14 @@ const Home = () => {
   const graph1Ref = useRef(null);
   const graph2Ref = useRef(null);
   const graph3Ref = useRef(null);
+  const molRef = useRef(null);
+  const tableRef = useRef(null);
+
   const [graph1Size, setGraph1Size] = React.useState({ width: 0, height: 0 });
   const [graph2Size, setGraph2Size] = React.useState({ width: 0, height: 0 });
   const [graph3Size, setGraph3Size] = React.useState({ width: 0, height: 0 });
+  const [molSize, setMolSize] = React.useState({ width: 0, height: 0 });
+  const [tableSize, setTableSize] = React.useState({ width: 0, height: 0 });
 
   const handleButtonClick = (event) => {
     event.preventDefault();
@@ -81,7 +86,7 @@ const Home = () => {
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
       const height = rect.width * (9 / 16);
-      setSize({ width: rect.width, height: height - 80 });
+      setSize({ width: rect.width, height: height });
     }
   };
 
@@ -90,6 +95,8 @@ const Home = () => {
       updateDimensions(graph1Ref, setGraph1Size);
       updateDimensions(graph2Ref, setGraph2Size);
       updateDimensions(graph3Ref, setGraph3Size);
+      updateDimensions(molRef, setMolSize);
+      updateDimensions(tableRef, setTableSize);
     };
 
     updateWidthsAndHeights();
@@ -171,47 +178,61 @@ const Home = () => {
 
   return (
     <>
-      <div className="container" style={{ height: '100vh', padding: 0 }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          backgroundColor: '#001e62',
+          padding: '0.5rem 1rem',
+          color: 'white',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <img
+            src="uic.png"
+            alt="UIC Engineering"
+            style={{ marginRight: '10px', marginLeft: '30px', width: 'auto', height: '40px ' }}
+          />{' '}
+          {/* Replace with your logo */}
+          <Typography variant="h6">Multiscale Materials and Manufacturing Lab</Typography>
+        </div>
+
+        {/* Right Side - for the upload button */}
+        <div>
+          <Button variant="contained" color="success" startIcon={<CloudUploadIcon />} onClick={handleButtonClick}>
+            Upload
+          </Button>
+          <input type="file" ref={fileInputRef} style={{ display: 'none' }} accept=".pdb" onChange={handleFileUpload} />
+        </div>
+      </div>
+      <div className="container">
         <div className="row">
-          <div className="col-md-5">
-            <div className="card-body">
-              <div className="d-flex align-items-center">
-                <Typography variant="h4" gutterBottom>
-                  MOF Visualization
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="success"
-                  startIcon={<CloudUploadIcon />}
-                  style={{ marginLeft: 'auto' }}
-                  onClick={handleButtonClick}
-                >
-                  Upload
-                </Button>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  style={{ display: 'none' }}
-                  accept=".pdb"
-                  onChange={handleFileUpload}
-                />
+          <div ref={tableRef} className="col-md-5">
+            {tableSize.width > 0 && (
+              <div className="card-body table-comp" style={{ height: tableRef.height - 50 }}>
+                <TableComponent setSelectedMof={setSelectedMof} />
               </div>
-              <TableComponent setSelectedMof={setSelectedMof} />
-            </div>
+            )}
           </div>
-          <div className="col-md-7">
+          <div ref={molRef} className="col-md-7">
             <div className="card-body">
-              <Molecules selectedMof={selectedMof} />
+              {molSize.width > 0 && <Molecules selectedMof={selectedMof} w={molSize.width - 50} h={molSize.height} />}
             </div>
           </div>
         </div>
-        <div className="row mt-10">
+        <div className="row">
           <div ref={graph2Ref} className="col-md-4">
             <div className="card-body">
               {graph2Size.width > 0 && <Scatter w={graph2Size.width} h={graph2Size.height} />}
             </div>
           </div>
-          <div ref={graph1Ref} className="col-md-4" >
+          <div ref={graph1Ref} className="col-md-4">
             <div className="card-body">
               {graph1Size.width > 0 && (
                 <StackedBarplot

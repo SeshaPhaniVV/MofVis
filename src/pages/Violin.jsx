@@ -5,16 +5,16 @@ import getDataViolin from '../loaders/jsonLoader2';
 import { Hidden } from '@mui/material';
 const MARGIN = { top: 30, right: 30, bottom: 30, left: 30 };
 function summarizeDistribution(values) {
-  const sorted = values.sort((a,b) => a - b);
+  const sorted = values.sort((a, b) => a - b);
 
   const dist = {
     min: sorted[0],
-    lowerQuartile: d3.quantile(sorted, 0.25),  
+    lowerQuartile: d3.quantile(sorted, 0.25),
     median: d3.quantile(sorted, 0.5),
     upperQuartile: d3.quantile(sorted, 0.75),
     max: sorted[sorted.length - 1],
-    mean: d3.mean(sorted)   
-  }
+    mean: d3.mean(sorted),
+  };
 
   return dist;
 }
@@ -47,12 +47,13 @@ const Violin = ({ width, height }) => {
     svgElement.append('g').call(yAxisGenerator);
   }, [xScale, yScale, boundsHeight]);
 
-  const handleMouseOver = (event, data,group) => {
-    console.log({ data });
-    const distribution = summarizeDistribution(data); 
+  const handleMouseOver = (event, data, group) => {
+    const distribution = summarizeDistribution(data);
     const tooltipDiv = d3.select('#violin-tooltip');
     tooltipDiv.transition().duration(200).style('visibility', 'visible');
-    tooltipDiv.html(`
+    tooltipDiv
+      .html(
+        `
     <text x="${event.pageX}" y="${event.pageY} fill="white">
       <tspan>Upper Quartile: ${distribution.upperQuartile}</tspan>
       <br></br>
@@ -64,7 +65,8 @@ const Violin = ({ width, height }) => {
         Median: ${distribution.median}
       </tspan>
     </text>
-  `)// Replace with the content you want to show
+  `,
+      ) // Replace with the content you want to show
       .style('left', event.pageX + 10 + 'px')
       .style('top', event.pageY - 28 + 'px');
   };
@@ -76,7 +78,12 @@ const Violin = ({ width, height }) => {
   const allShapes = groups.map((group, i) => {
     const groupData = data.filter((d) => d.name === group).map((d) => d.values);
     return (
-      <g key={i} transform={`translate(${xScale(group)},0)`} onMouseEnter={(event) => handleMouseOver(event, groupData,group)} onMouseOut={handleMouseOut}>
+      <g
+        key={i}
+        transform={`translate(${xScale(group)},0)`}
+        onMouseEnter={(event) => handleMouseOver(event, groupData, group)}
+        onMouseOut={handleMouseOut}
+      >
         <VerticalViolinShape data={groupData} yScale={yScale} width={xScale.bandwidth()} binNumber={20} />
       </g>
     );
@@ -107,7 +114,7 @@ const Violin = ({ width, height }) => {
         id="violin-tooltip"
         style={{
           position: 'absolute',
-          visibility:Hidden,
+          visibility: Hidden,
           backgroundColor: 'rgba(97, 97, 97, 0.9)',
           color: 'white',
           padding: '2px',

@@ -4,9 +4,9 @@ import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 import { PDBLoader } from 'three/addons/loaders/PDBLoader.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 
-const Molecules = ({ selectedMof }) => {
+const Molecules = ({ selectedMof, w, h }) => {
   const map = {
-    'hMOF-0': 'caffeine',
+    'hMOF-0': 'hMOF-0',
     'hMOF-1': 'cocaine',
     'hMOF-2': 'cholesterol',
     'hMOF-3': 'diamond',
@@ -71,13 +71,13 @@ const Molecules = ({ selectedMof }) => {
     scene.add(root);
 
     renderer.setPixelRatio(window.devicePixelRatio);
-    const w = containerRef.current.offsetWidth - 50;
-    renderer.setSize(w, w * (9 / 16));
+    // const w = containerRef.current.offsetWidth - 50;
+    renderer.setSize(w, h);
     document.getElementById('container').appendChild(renderer.domElement);
     document.getElementById('container').appendChild(renderer.domElement);
 
     labelRenderer = new CSS2DRenderer();
-    labelRenderer.setSize(w, w * (9 / 16));
+    labelRenderer.setSize(w, h);
     labelRenderer.domElement.style.position = 'absolute';
     labelRenderer.domElement.style.top = '0px';
     labelRenderer.domElement.style.pointerEvents = 'none';

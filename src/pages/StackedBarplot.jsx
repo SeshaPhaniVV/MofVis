@@ -45,7 +45,7 @@ const StackedBarplot = ({ width, height, structuresData, isothermsData }) => {
   const stackSeries = d3.stack().keys(allSubgroups).order(d3.stackOrderNone);
   const series = stackSeries(data);
 
-  const max = 200; 
+  const max = 1200;
   const yScale = useMemo(() => {
     return d3
       .scaleLinear()
@@ -104,7 +104,6 @@ const StackedBarplot = ({ width, height, structuresData, isothermsData }) => {
   }, [xScale, yScale, boundsHeight]);
 
   const rectangles = series.map((subgroup, i) => {
-    console.log({ subgroup });
     return (
       <g key={i}>
         {subgroup.map((group, j) => {
