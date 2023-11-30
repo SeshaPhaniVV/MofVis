@@ -10,15 +10,37 @@
 - Srikanth Kyatham
 - Sri Sai Kiran Reddy Gorla
 
+## Clients
+- Santanu Chaudhuri – Professor, Director of Manufacturing Science and Engineering
+- Xiaoli Yan – PhD Student and Research Assistant, University of Illinois at Chicago
+
 ## Repository details
 
 This project frontend was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 Backed is bootstrapped with a Conda Flask server.
 
+
 ## Prerequisites
 
 - Conda installed: You need to have Conda installed on your system.
 - Python: Your Conda environment should have Python installed.
+
+<img width="1470" alt="Screenshot 2023-11-30 at 5 13 26 AM" src="https://github.com/SeshaPhaniVV/MofVis/assets/114699421/92d2b098-6578-462c-85b0-a55298e87161">
+  
+<img width="1459" alt="Screenshot 2023-11-30 at 5 13 45 AM" src="https://github.com/SeshaPhaniVV/MofVis/assets/114699421/db4e44df-6548-4a0d-88ed-4d80fa7d7b3f">
+
+## Features
+
+
+MOFVis provides a suite of interactive tools and features designed to enhance the exploration and analysis of Metal-Organic Frameworks:
+
+
+- **Dynamic Data Table**: An interactive table displaying essential MOF properties allows for sorting and immediate access to detailed structure visualizations.
+- **3D Visualization**: High-resolution 3D models of MOFs can be manipulated through user controls for an immersive examination of molecular configurations.
+- **Analytical Scatter Plot**: A responsive scatter plot graphically correlates MOF surface area with void fraction, providing instant visual insights into structural properties.
+- **Composition Histogram**: A clear, segmented histogram shows the atomic makeup of MOFs, facilitating a quick assessment of their elemental composition.
+- **Pore Characterization**: Interactive violin plots detail pore size distributions, offering a visual summary of key structural metrics like pore limiting diameters.
+- **Custom Uploads**: The platform supports direct PDB file uploads, enabling personalized visualization and analysis of user-specific MOF structures.
 
 ## Backend Server Setup
 
@@ -77,6 +99,19 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
+
+
+## Usability
+
+The MOFVis interface is designed for clarity and ease, ensuring a seamless user experience:
+
+- **Guided Navigation**: Navigate through the platform's features with an intuitive layout and clearly labeled controls.
+- **Real-Time Interactivity**: Live updates in data visualization respond to user actions, allowing for a hands-on analytical approach.
+- **Enhanced Accessibility**: Complex MOF data is rendered into comprehensible visual formats, making the platform valuable for both experienced researchers and educational purposes.
+- **Effortless Workflow**: From data upload to detailed analysis, each step is optimized for user convenience and efficiency.
+
+
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
@@ -98,3 +133,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 - https://flask.palletsprojects.com/en/3.0.x/
 - https://threejs.org/examples/webgl_loader_pdb
 - https://anaconda.org/anaconda/conda
+- https://mof.tech.northwestern.edu/
+  
