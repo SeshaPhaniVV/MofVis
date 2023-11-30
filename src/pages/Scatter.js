@@ -6,7 +6,7 @@ import AxisLeft from './AxisLeft';
 import AxisBottom from './AxisBottom';
 import getData from '../loaders/jsonLoader';
 import { debounce } from 'lodash';
-import { interpolateViridis } from 'd3';
+import { interpolateReds } from 'd3';
 import { scaleQuantize } from 'd3-scale';
 import * as d3 from 'd3';
 
@@ -91,8 +91,8 @@ function Scatter({ w, h }) {
   const rScale = scaleLinear()
     .domain(extent(data, (d) => d.pld))
     .range([5, 10]);
-  const legendColorScale = scaleSequential(interpolateViridis).domain(pldExtent);
-  const colorScale = scaleSequential(interpolateViridis).domain(pldExtent);
+  const legendColorScale = scaleSequential(interpolateReds).domain(pldExtent);
+  const colorScale = scaleSequential(interpolateReds).domain(pldExtent);
 
   const ColorLegend = () => {
     const legendWidth = 8;
