@@ -10,10 +10,6 @@
 - Srikanth Kyatham
 - Sri Sai Kiran Reddy Gorla
 
-## Clients
-- Santanu Chaudhuri – Professor, Director of Manufacturing Science and Engineering
-- Xiaoli Yan – PhD Student and Research Assistant, University of Illinois at Chicago
-
 ## Repository details
 
 This project frontend was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
